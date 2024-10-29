@@ -1,4 +1,4 @@
-package com.walkers.sportslight.user.domain.model;
+package com.walkers.sportslight.user.command.domain.model;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -23,6 +23,7 @@ public class User {
     private String phoneNumber;
     private String address;
 
+
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
@@ -30,7 +31,6 @@ public class User {
     private UserStatus status;
 
     @Builder
-
     public User(String userId, String password, String nickname, int age, String phoneNumber,
                 String address, Authority authority, UserStatus status) {
         this.userId = userId;
