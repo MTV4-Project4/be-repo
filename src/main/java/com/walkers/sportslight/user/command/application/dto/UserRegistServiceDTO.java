@@ -16,6 +16,7 @@ public class UserRegistServiceDTO {
     private final String address;
     private final Authority authority;
     private final UserStatus status;
+    private final int experience;
 
     public UserRegistServiceDTO(UserRegistRequestDTO userRegistRequestDTO, Authority authority, UserStatus status) {
         this.userId = userRegistRequestDTO.getUserId();
@@ -26,5 +27,6 @@ public class UserRegistServiceDTO {
         this.address = userRegistRequestDTO.getAddress();
         this.authority = authority;
         this.status = status;
+        this.experience=0;
     }
 }

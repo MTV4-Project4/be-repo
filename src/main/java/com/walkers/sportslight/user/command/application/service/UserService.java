@@ -4,6 +4,7 @@ import com.walkers.sportslight.user.command.application.dto.UserRegistMapper;
 import com.walkers.sportslight.user.command.application.dto.UserRegistServiceDTO;
 import com.walkers.sportslight.user.command.domain.model.User;
 import com.walkers.sportslight.user.command.domain.repository.UserRepository;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.stereotype.Service;
 
 @Service
