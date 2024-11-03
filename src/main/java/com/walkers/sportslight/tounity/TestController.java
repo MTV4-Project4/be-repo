@@ -15,13 +15,20 @@ import java.time.LocalDateTime;
 @RequestMapping("test")
 public class TestController {
 
-    @GetMapping ("")
+    @GetMapping(produces = "application/json; charset=utf8")
+    public String stringData(){
+        log.info("요청 들어옴");
+        return "문자열 반환";
+    }
+
+    @GetMapping ("simple")
     public SimpleResponseDTO simpleData(){
         return new SimpleResponseDTO("통신 테스트");
     }
 
     @GetMapping("some")
     public SomeDataResponseDTO someData(){
+        log.info("someDate함수 요청옴");
         return new SomeDataResponseDTO(
                 42, 33.3, "예시 응답", LocalDateTime.now()
         );
@@ -51,14 +58,14 @@ public class TestController {
 
     }
 
-    @DeleteMapping("some/{id}")
-    public String deleteSomething(long id){
+    @DeleteMapping(value = "some/{id}", produces = "application/json; charset=utf8")
+    public String deleteSomething(@PathVariable long id){
 
         return id+"번 삭제될 예정";
     }
 
-    @PutMapping("some/{id}")
-    public String putSomething(long id){
+    @PutMapping(value="some/{id}", produces = "application/json; charset=utf8")
+    public String putSomething(@PathVariable long id){
         return id+"번 변경될 예정";
     }
 
