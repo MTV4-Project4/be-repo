@@ -23,16 +23,16 @@ public class User {
     private String phoneNumber;
     private String address;
 
-
     @Enumerated(EnumType.STRING)
     private Authority authority;
-
     @Enumerated(EnumType.STRING)
     private UserStatus status;
 
+    private int experience;
+
     @Builder
     public User(String userId, String password, String nickname, int age, String phoneNumber,
-                String address, Authority authority, UserStatus status) {
+                String address, Authority authority, UserStatus status, int experience) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
@@ -41,5 +41,6 @@ public class User {
         this.address = address;
         this.authority = authority;
         this.status = status;
+        this.experience = experience;
     }
 }

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.user.query.repository.UserQueryRepository">
+
+    <resultMap id="oneUserFavoriteMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">
+        <result property="nickname" column="nickname"/>
+        <collection property="challengeFavorite"
+                    javaType="com.walkers.sportslight.challengeFavorites.query.dto.ChallengeFavoriteDTO">
+            <id property="favoriteId" column="favorite_id"/>
+            <result property="challengeName" column="challenge_name"/>
+            <result property="addedDate" column="added_date"/>
+            <result property="challengeExpireTime" column="expire_at"/>
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="accountMap" type="com.walkers.sportslight.user.query.dto.AccountInfoResponseDTO">
+        <id property="userNo" column="user_no"/>
+        <result property="nickname" column="nickname"/>
+        <result property="age" column="age"/>
+        <result property="phoneNumber" column="phoneNumber"/>
+        <result property="address" column="address"/>
+    </resultMap>
+
+
+    <select id="findAccountByUserNo" resultMap="oneUserFavoriteMap" parameterType="_long">
+        SELECT
+                USER_NO
+              , NICKNAME
+              , AGE
+              , PHONE_NUMBER
+              , ADDRESS
+          FROM
+                TBL_USER
+         WHERE
+                USER_NO=#{userNo}
+
+
+    </select>
+
+</mapper>
