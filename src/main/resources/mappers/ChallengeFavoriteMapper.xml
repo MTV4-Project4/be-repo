@@ -5,7 +5,7 @@
 
 <mapper namespace="com.walkers.sportslight.challengeFavorites.query.repository.ChallengeFavoriteQueryRepository">
     
-    <resultMap id="userMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">
+    <resultMap id="oneUserFavoriteMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">
         <result property="nickname" column="nickname"/>
         <collection property="challengeFavorite"
                     javaType="com.walkers.sportslight.challengeFavorites.query.dto.ChallengeFavoriteDTO">
@@ -15,7 +15,6 @@
             <result property="challengeExpireTime" column="expire_at"/>
         </collection>
     </resultMap>
-
 
 
     <select id="findByUserNo" resultMap="oneUserFavoriteMap" parameterType="_long">

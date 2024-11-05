@@ -1,16 +1,19 @@
 package com.walkers.sportslight.item.command.domain.aggregate;
 
+import com.walkers.sportslight.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Item {
+public class Item extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long itemId;
@@ -24,9 +27,8 @@ public class Item {
     private int itemPrice;
     private String itemImageUrl;
 
-
     @Builder
-    public Item(String itemName, String itemDescription, ItemType itemType, int itemPrice) {
+    public Item(String itemName, String itemDescription, ItemType itemType, int itemPrice, LocalDateTime createdAt) {
         this.itemName = itemName;
         this.itemDescription = itemDescription;
         this.itemType = itemType;
