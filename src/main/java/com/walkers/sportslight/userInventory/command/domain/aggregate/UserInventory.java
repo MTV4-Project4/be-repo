@@ -19,11 +19,18 @@ public class UserInventory {
 
     private long userId;
     private long itemId;
+
+    @Enumerated(EnumType.STRING)
+    private InventoryItemType itemType;
     private LocalDateTime acquireAt;
 
-    public UserInventory(long userId, long itemId, LocalDateTime acquireAt) {
+    private String isEquipped;
+
+    public UserInventory(long userId, long itemId, InventoryItemType itemType, LocalDateTime acquireAt, String isEquipped) {
         this.userId = userId;
         this.itemId = itemId;
+        this.itemType = itemType;
         this.acquireAt = acquireAt;
+        this.isEquipped = isEquipped;
     }
 }

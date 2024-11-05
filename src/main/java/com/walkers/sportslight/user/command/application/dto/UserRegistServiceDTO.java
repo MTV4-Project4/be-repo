@@ -18,13 +18,13 @@ public class UserRegistServiceDTO {
     private final UserStatus status;
     private final int experience;
 
-    public UserRegistServiceDTO(UserRegistRequestDTO userRegistRequestDTO, Authority authority, UserStatus status) {
-        this.userId = userRegistRequestDTO.getUserId();
-        this.password = userRegistRequestDTO.getPassword();
-        this.nickname = userRegistRequestDTO.getNickname();
-        this.age = userRegistRequestDTO.getAge();
-        this.phoneNumber = userRegistRequestDTO.getPhoneNumber();
-        this.address = userRegistRequestDTO.getAddress();
+    public UserRegistServiceDTO(UserAuthRequestDTO.signUpDTO userRegistRequestDTO, Authority authority, UserStatus status) {
+        this.userId = userRegistRequestDTO.userId();
+        this.password = userRegistRequestDTO.password();
+        this.nickname = userRegistRequestDTO.nickname();
+        this.age = userRegistRequestDTO.age();
+        this.phoneNumber = userRegistRequestDTO.phoneNumber();
+        this.address = userRegistRequestDTO.address();
         this.authority = authority;
         this.status = status;
         this.experience=0;

@@ -4,4 +4,6 @@ import com.walkers.sportslight.userInventory.command.domain.aggregate.UserInvent
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UserInventoryRepository extends JpaRepository<UserInventory, Long> {
+
+    void deleteByItemId(long itemId);
 }

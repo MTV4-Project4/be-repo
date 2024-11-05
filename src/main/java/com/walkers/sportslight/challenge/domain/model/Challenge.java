@@ -1,5 +1,6 @@
 package com.walkers.sportslight.challenge.domain.model;
 
+import com.walkers.sportslight.common.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -11,16 +12,14 @@ import java.time.LocalDateTime;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
-public class Challenge {
+public class Challenge extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long challengeId;
 
     private String challengeName;
     private String content;
-    private long userNo;
+    private long uploaderNo;
     private int timeLimit;
     private int participantCount; // 현재 참가자 수
     private int capacity; // 허용 참가자 수
@@ -31,13 +30,13 @@ public class Challenge {
 
     @Builder
     public Challenge(String challengeName, String content, int timeLimit, int participantCount, int capacity,
-                     long userNo, Coordinate challengeCoords, LocalDateTime expiresAt) {
+                     long uploaderNo, Coordinate challengeCoords, LocalDateTime expiresAt) {
         this.challengeName = challengeName;
         this.content = content;
         this.timeLimit = timeLimit;
         this.participantCount = participantCount;
         this.capacity = capacity;
-        this.userNo = userNo;
+        this.uploaderNo = uploaderNo;
         this.challengeCoords = challengeCoords;
         this.expiresAt = expiresAt;
     }
