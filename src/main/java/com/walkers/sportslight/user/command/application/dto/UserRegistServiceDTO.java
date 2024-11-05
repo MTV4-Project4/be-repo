@@ -17,6 +17,7 @@ public class UserRegistServiceDTO {
     private final Authority authority;
     private final UserStatus status;
     private final int experience;
+    private final int money;
 
     public UserRegistServiceDTO(UserAuthRequestDTO.signUpDTO userRegistRequestDTO, Authority authority, UserStatus status) {
         this.userId = userRegistRequestDTO.userId();
@@ -28,5 +29,6 @@ public class UserRegistServiceDTO {
         this.authority = authority;
         this.status = status;
         this.experience=0;
+        this.money=0;
     }
 }

@@ -8,6 +8,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.NoSuchElementException;
+
 @Service
 @Slf4j
 public class UserService {
@@ -15,9 +17,28 @@ public class UserService {
     private UserRepository userRepository;
     private UserRegistMapper userRegistMapper;
 
+    public User findByUserNo(Long userNo) {
+        return userRepository.findById(userNo)
+                .orElseThrow(()-> new NoSuchElementException("해당 유저 이름을 찾을 수 없습니다."));
+    }
+
     public UserService(UserRepository userRepository, UserRegistMapper userRegistMapper) {
         this.userRepository = userRepository;
         this.userRegistMapper = userRegistMapper;
+    }
+
+    public int getUserMoney(long userNo){
+        return findByUserNo(userNo).getMoney();
+    }
+
+    public void addMoney(long userNo, int money){
+        User user = findByUserNo(userNo);
+        user.setMoney(user.getMoney() + money);
+    }
+
+    public void subtractMoney(long userNo, int money){
+        User user = findByUserNo(userNo);
+        user.setMoney(user.getMoney() - money);
     }
 
     public void registUser(UserRegistServiceDTO userRegistInfo) {

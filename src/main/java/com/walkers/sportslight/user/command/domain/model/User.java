@@ -29,10 +29,10 @@ public class User {
     private UserStatus status;
 
     private int experience;
+    private int money;
 
     @Builder
-    public User(String userId, String password, String nickname, int age, String phoneNumber,
-                String address, Authority authority, UserStatus status, int experience) {
+    public User(String userId, String password, String nickname, int age, String phoneNumber, String address, Authority authority, UserStatus status, int experience, int money) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
@@ -42,5 +42,14 @@ public class User {
         this.authority = authority;
         this.status = status;
         this.experience = experience;
+        this.money = money;
+    }
+
+    public void setExperience(int experience) {
+        this.experience = experience;
+    }
+
+    public void setMoney(int money) {
+        this.money = money;
     }
 }
