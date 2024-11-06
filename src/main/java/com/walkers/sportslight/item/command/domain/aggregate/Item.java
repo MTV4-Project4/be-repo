@@ -25,14 +25,17 @@ public class Item extends BaseTimeEntity {
 
     private int itemPrice;
     private String itemImageUrl;
+    private String itemAvatarPath;
 
     @Builder
-    public Item(String itemName, ItemType itemType, int itemPrice, LocalDateTime createdAt) {
+    public Item(String itemName, ItemType itemType, int itemPrice, String itemAvatarPath) {
         this.itemName = itemName;
-
         this.itemType = itemType;
         this.itemPrice = itemPrice;
+        this.itemAvatarPath = itemAvatarPath;
     }
+
+
 
     public void setItemImageUrl(String itemImageUrl) {
         this.itemImageUrl = itemImageUrl;

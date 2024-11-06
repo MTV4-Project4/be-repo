@@ -5,7 +5,7 @@
 
 <mapper namespace="com.walkers.sportslight.challengeFavorites.query.repository.ChallengeFavoriteQueryRepository">
 
-    <resultMap id="itemMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">
+    <resultMap id="itemMap" type="com.walkers.sportslight.item.query.dto.ItemResponseDTO">
         <id property="itemId" column="item_id"/>
         <result property="itemName" column="item_name"/>
         <result property="itemImageUrl" column="item_img_url"/>
@@ -35,7 +35,7 @@
         FROM
         TBL_ITEM
         WHERE
-        ITEM_TYPE=#{itemId}
+        ITEM_ID=#{itemId}
     </select>
 
     <select id="findItems" resultMap="itemMap"
