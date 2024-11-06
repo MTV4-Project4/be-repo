@@ -19,21 +19,23 @@ public class Item extends BaseTimeEntity {
     private Long itemId;
 
     private String itemName;
-    private String itemDescription;
 
     @Enumerated(EnumType.STRING)
     private ItemType itemType;
 
     private int itemPrice;
     private String itemImageUrl;
+    private String itemAvatarPath;
 
     @Builder
-    public Item(String itemName, String itemDescription, ItemType itemType, int itemPrice, LocalDateTime createdAt) {
+    public Item(String itemName, ItemType itemType, int itemPrice, String itemAvatarPath) {
         this.itemName = itemName;
-        this.itemDescription = itemDescription;
         this.itemType = itemType;
         this.itemPrice = itemPrice;
+        this.itemAvatarPath = itemAvatarPath;
     }
+
+
 
     public void setItemImageUrl(String itemImageUrl) {
         this.itemImageUrl = itemImageUrl;
