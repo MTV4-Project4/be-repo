@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.userInventory.query.repository.UserInventoryQueryRepository">
+
+    <resultMap id="userInventoryMap" type="com.walkers.sportslight.userInventory.query.dto.UserInventoryResponseDTO">
+        <id property="userInventoryId" column="user_inventory_id"/>
+        <result property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemImageUrl" column="item_image_url"/>
+        <result property="itemType" column="item_type"/>
+        <result property="isEquipped" column="is_equipped"/>
+    </resultMap>
+
+    <select id="findByUserNo" resultMap="oneUserChallengeListMap" parameterType="_long">
+        SELECT
+        A.USER_CHALLENGE_ID
+        , A.RECORD
+        , B.CHALLENGE_ID
+        , B.CHALLENGE_NAME
+        , B.EXPIRE_AT
+        , RANK() OVER
+        (ORDER BY RECORD DESC, PARTICIPATE_TIME)
+        AS RANKING
+        FROM
+        (SELECT
+        USER_CHALLENGE_ID
+        , RECORD
+        , CHALLENGE_ID
+        FROM
+        USER_CHALLENGE
+        WHERE
+        USER_NO=#{userNo}
+        ) A
+        JOIN
+        CHALLENGE B
+        ON
+        A.CHALLENGE_ID=B.CHALLENGE_ID
+    </select>
+
+
+
+</mapper>

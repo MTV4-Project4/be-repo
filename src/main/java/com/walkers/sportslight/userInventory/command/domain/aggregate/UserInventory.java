@@ -2,6 +2,7 @@ package com.walkers.sportslight.userInventory.command.domain.aggregate;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -17,7 +18,7 @@ public class UserInventory {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long userInventoryId;
 
-    private long userId;
+    private long userNo;
     private long itemId;
 
     @Enumerated(EnumType.STRING)
@@ -26,11 +27,16 @@ public class UserInventory {
 
     private String isEquipped;
 
-    public UserInventory(long userId, long itemId, InventoryItemType itemType, LocalDateTime acquireAt, String isEquipped) {
-        this.userId = userId;
+    @Builder
+    public UserInventory(long userNo, long itemId, InventoryItemType itemType, LocalDateTime acquireAt, String isEquipped) {
+        this.userNo = userNo;
         this.itemId = itemId;
         this.itemType = itemType;
         this.acquireAt = acquireAt;
+        this.isEquipped = isEquipped;
+    }
+
+    public void setIsEquipped(String isEquipped) {
         this.isEquipped = isEquipped;
     }
 }
