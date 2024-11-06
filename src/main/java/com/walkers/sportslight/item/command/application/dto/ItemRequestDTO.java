@@ -12,7 +12,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class ItemRequestDTO {
     private String itemName;
     private MultipartFile itemImage;
-    private String itemDescription;
     private ItemType itemType;
     private int itemPrice;
 }
