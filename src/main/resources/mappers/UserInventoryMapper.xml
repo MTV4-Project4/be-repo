@@ -6,40 +6,58 @@
 <mapper namespace="com.walkers.sportslight.userInventory.query.repository.UserInventoryQueryRepository">
 
     <resultMap id="userInventoryMap" type="com.walkers.sportslight.userInventory.query.dto.UserInventoryResponseDTO">
-        <id property="userInventoryId" column="user_inventory_id"/>
-        <result property="itemId" column="item_id"/>
-        <result property="itemName" column="item_name"/>
-        <result property="itemImageUrl" column="item_image_url"/>
-        <result property="itemType" column="item_type"/>
-        <result property="isEquipped" column="is_equipped"/>
+<!--        <id property="userInventoryId" column="user_inventory_id"/>-->
+        <id property="userNo" column="user_no"/>
+        <collection property="itemList" ofType="com.walkers.sportslight.userInventory.query.dto.UserInventoryListDTO">
+            <id property="itemId" column="item_id"/>
+            <result property="itemName" column="item_name"/>
+            <result property="itemImageUrl" column="item_image_url"/>
+            <result property="itemType" column="item_type"/>
+            <result property="isEquipped" column="is_equipped"/>
+        </collection>
+
     </resultMap>
 
-    <select id="findByUserNo" resultMap="oneUserChallengeListMap" parameterType="_long">
+<!--    <resultMap id="userAvatarMap" type="com.walkers.sportslight.userInventory.query.dto.UserAvatarResponseDTO">-->
+<!--        <id property="userNo" column="user_no"/>-->
+<!--        <collection property="avatars" javaType="list"-->
+<!--                    ofType="com.walkers.sportslight.userInventory.query.dto.AvatarDTO">-->
+<!--            <result property="itemName" column="item_name"/>-->
+<!--            <result property="itemType" column="item_type"/>-->
+<!--        </collection>-->
+<!--    </resultMap>-->
+
+<!--    <select id="findAvatarByUserNo" resultMap="userAvatarMap">-->
+<!--        SELECT-->
+<!--                A.USER_NO-->
+<!--              , A.ITEM_NAME-->
+<!--              , A.ITEM_TYPE-->
+<!--              , B.ITEM_AVATAR_PATH-->
+<!--          FROM-->
+<!--                USER_INVENTORY A-->
+<!--          JOIN-->
+<!--                ITEM B-->
+<!--            ON-->
+<!--                A.ITEM_ID = B.ITEM_ID-->
+<!--         WHERE-->
+<!--                USER_NO=#{userNo}-->
+<!--    </select>-->
+
+    <select id="findByUserNo" resultMap="userInventoryMap">
         SELECT
-        A.USER_CHALLENGE_ID
-        , A.RECORD
-        , B.CHALLENGE_ID
-        , B.CHALLENGE_NAME
-        , B.EXPIRE_AT
-        , RANK() OVER
-        (ORDER BY RECORD DESC, PARTICIPATE_TIME)
-        AS RANKING
-        FROM
-        (SELECT
-        USER_CHALLENGE_ID
-        , RECORD
-        , CHALLENGE_ID
-        FROM
-        USER_CHALLENGE
-        WHERE
-        USER_NO=#{userNo}
-        ) A
-        JOIN
-        CHALLENGE B
-        ON
-        A.CHALLENGE_ID=B.CHALLENGE_ID
+                A.USER_NO
+              , B.ITEM_ID
+              , B.ITEM_NAME
+              , A.ITEM_TYPE
+              , A.IS_EQUIPPED
+              , B.ITEM_IMAGE_URL
+          FROM
+                USER_INVENTORY A
+          JOIN
+                ITEM B
+            ON
+                A.ITEM_ID = B.ITEM_ID
+         WHERE
+                A.USER_NO=#{userNo}
     </select>
-
-
-
 </mapper>

@@ -13,9 +13,13 @@ public class UserItemAddServiceDTO {
     private final long itemId;
     private final LocalDateTime acquireAt;
     private InventoryItemType itemType;
-    private String isEquipped;
+    private String isEquipped="N";
 
     public void setItemType(InventoryItemType itemType) {
         this.itemType = itemType;
+    }
+
+    public void setIsEquipped(String isEquipped) {
+        this.isEquipped = isEquipped;
     }
 }
