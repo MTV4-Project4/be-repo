@@ -1,20 +1,17 @@
 package com.walkers.sportslight.userInventory.query.dto;
 
-import com.walkers.sportslight.userInventory.command.domain.aggregate.InventoryItemType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@NoArgsConstructor
-@AllArgsConstructor
+import java.util.List;
+
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserInventoryResponseDTO {
-    private long userInventoryId;
-    private long itemId;
-    private String itemName;
-    private String itemImageUrl;
-    private InventoryItemType itemType;
-    private String isEquipped;
+    private long userNo;
+    private List<UserInventoryListDTO> itemList;
 }

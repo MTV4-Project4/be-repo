@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -41,6 +42,13 @@ public class UserInventoryService {
         );
         UserInventory userInventory = userInventoryMapper.toUserInventory(addInfo);
         userInventoryRepository.save(userInventory);
+    }
+
+    @Transactional
+    public void equipMultipleItem(List<Long> itemIdList, long userNo){
+        for (long itemId:itemIdList){
+            equipItem(itemId, userNo);
+        }
     }
 
     @Transactional
