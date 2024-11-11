@@ -5,56 +5,54 @@ import com.walkers.sportslight.item.command.application.dto.ItemRequestDTO;
 import com.walkers.sportslight.item.command.domain.aggregate.Item;
 import com.walkers.sportslight.item.command.domain.aggregate.ItemType;
 import com.walkers.sportslight.item.command.domain.repository.ItemRepository;
+import com.walkers.sportslight.item.command.domain.service.ItemImageService;
 import com.walkers.sportslight.userInventory.command.application.service.UserInventoryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
 public class ItemService {
-    private final ItemRepository itemRepository;
     private final ItemMapper itemMapper;
-    private final UserInventoryService userInventoryService;
-
-    public Item findItemById(Long id) {
-        return itemRepository.findById(id).orElseThrow(
-                () -> new NoSuchElementException("해당하는 아이템은 존재하지 않습니다.")
-        );
-    }
+    private final ItemImageService itemImageService;
+    private final itemBoardService itemBoardService;
 
     public ItemType getItemTypeByItemId(long itemId){
-        return findItemById(itemId).getItemType();
+        return itemBoardService.findItemById(itemId).getItemType();
     }
 
-    public void addItem(ItemRequestDTO itemRequest){
+    public Item findItemById(long id){
+        return itemBoardService.findItemById(id);
+    }
+
+    public long addItem(ItemRequestDTO itemRequest){
         Item item = itemMapper.toItem(itemRequest);
+        String imageUrl;
+        try {
+            imageUrl = itemImageService.uploadImage(itemRequest.getItemImage());
+        } catch (IOException e){
+            throw new RuntimeException("파일 업로드에 실패했습니다.");
+        }
+
+        return itemBoardService.addItemInfo(item, imageUrl);
         // Sting url = itemImageService.uploadImage();
         // addItemWithImageUrl(Item, url);
     }
 
     public void deleteItem(long itemId){
-        String toDeleteUrl = deleteItemWithImage(itemId);
-        // itemImageService.deleteImage();
+        String toDeleteUrl = itemBoardService.deleteItemInfo(itemId);
+
+        try{
+            itemImageService.deleteImage(toDeleteUrl);
+        } catch (IOException e){
+            throw new RuntimeException("파일 삭제중 문제가 발생했습니다");
+        }
+
     }
 
-    // 파일 업로드 성공시 게시글 등록 트랜잭션 진행
-    @Transactional
-    protected void addItemWithImageUrl(Item item, String imageUrl){
-        item.setItemImageUrl(imageUrl);
-        itemRepository.save(item);
-    }
 
-    // 게시글 삭제 트랜잭션 성공시 파일 삭제를 위한 url 반환
-    @Transactional
-    protected String deleteItemWithImage(long itemId){
-        Item item = findItemById(itemId);
-        String oldFileUrl = item.getItemImageUrl();
-        itemRepository.deleteById(itemId);
-        userInventoryService.deleteByItemId(itemId);
-
-        return oldFileUrl;
-    }
 }

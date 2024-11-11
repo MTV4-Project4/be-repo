@@ -2,10 +2,7 @@ package com.walkers.sportslight.item.command.domain.aggregate;
 
 import com.walkers.sportslight.common.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -13,6 +10,7 @@ import java.time.LocalDateTime;
 @Table
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class Item extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,17 +23,15 @@ public class Item extends BaseTimeEntity {
 
     private int itemPrice;
     private String itemImageUrl;
-    private String itemAvatarPath;
+
 
     @Builder
-    public Item(String itemName, ItemType itemType, int itemPrice, String itemAvatarPath) {
+    public Item(String itemName, ItemType itemType, int itemPrice, String itemImageUrl) {
         this.itemName = itemName;
         this.itemType = itemType;
         this.itemPrice = itemPrice;
-        this.itemAvatarPath = itemAvatarPath;
+        this.itemImageUrl = itemImageUrl;
     }
-
-
 
     public void setItemImageUrl(String itemImageUrl) {
         this.itemImageUrl = itemImageUrl;
