@@ -14,5 +14,4 @@ public class ItemRequestDTO {
     private MultipartFile itemImage;
     private ItemType itemType;
     private int itemPrice;
-    private String itemAvatarPath;
 }

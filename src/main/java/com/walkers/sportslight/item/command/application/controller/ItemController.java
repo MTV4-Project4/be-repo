@@ -20,8 +20,8 @@ public class ItemController {
 
     @Operation(summary = "아이템 등록")
     @PostMapping("item")
-    private void addItem(@RequestBody ItemRequestDTO itemRequest) {
-        itemService.addItem(itemRequest);
+    private long addItem(@ModelAttribute ItemRequestDTO itemRequest) {
+        return itemService.addItem(itemRequest);
     }
 
     @Operation(summary = "아이템 삭제")
