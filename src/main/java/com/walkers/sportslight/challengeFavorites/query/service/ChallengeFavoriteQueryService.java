@@ -1,8 +1,10 @@
 package com.walkers.sportslight.challengeFavorites.query.service;
 
-import com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO;
+import com.walkers.sportslight.challengeFavorites.query.dto.ChallengeFavoriteDTO;
 import com.walkers.sportslight.challengeFavorites.query.repository.ChallengeFavoriteQueryRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class ChallengeFavoriteQueryService {
@@ -13,7 +15,7 @@ public class ChallengeFavoriteQueryService {
         this.challengeFavoriteQueryRepository = challengeFavoriteQueryRepository;
     }
 
-    public UserFavoriteDTO findUserFavorite(long userNo) {
+    public List<ChallengeFavoriteDTO> findUserFavorite(long userNo) {
         return challengeFavoriteQueryRepository.findByUserNo(userNo);
     }
 }

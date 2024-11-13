@@ -1,4 +1,4 @@
-package com.walkers.sportslight.challengeFavorites.command.application.dto;
+package com.walkers.sportslight.challengeFavorites.command.application.dto.request;
 
 import com.walkers.sportslight.challengeFavorites.command.domain.aggregate.ChallengeFavorite;
 import org.mapstruct.Mapper;

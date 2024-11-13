@@ -7,13 +7,16 @@ import com.walkers.sportslight.userChallenge.command.application.dto.UserChallen
 import com.walkers.sportslight.userChallenge.command.application.dto.UserChallengeRegistServiceDTO;
 import com.walkers.sportslight.userChallenge.command.domain.aggregate.UserChallenge;
 import com.walkers.sportslight.userChallenge.command.repository.UserChallengeRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserChallengeService {
 
     private ChallengeRepository challengeRepository;
@@ -27,7 +30,8 @@ public class UserChallengeService {
     }
 
     @Transactional
-    public void registUserChallenge(UserChallengeRegistServiceDTO userChallengeInfo) {
+    public long registUserChallenge(UserChallengeRegistServiceDTO userChallengeInfo) {
+        log.info("만들어진 유저 challenge 서비스 정보 {}",userChallengeInfo);
         Challenge challenge = challengeRepository.findById(userChallengeInfo.getChallengeId())
                 .orElseThrow(()->new NoSuchElementException("존재하지 않는 챌린지입니다."));
 
@@ -35,15 +39,18 @@ public class UserChallengeService {
             throw new IllegalArgumentException("만료되었습니다.");
         }
 
-        UserChallenge userChallenge = userChallengeRepository.findByUserNoAndChallengeId(
+        Optional<UserChallenge> userChallenge = userChallengeRepository.findByUserNoAndChallengeId(
                 userChallengeInfo.getUserNo(), userChallengeInfo.getChallengeId()
         );
 
-        if(userChallenge !=null){
-            userChallenge.update(userChallenge.getRecord(), userChallengeInfo.getParticipateTime());
+        if(userChallenge.isPresent()){
+
+            userChallenge.get().update(userChallengeInfo.getRecord(), userChallengeInfo.getParticipateTime());
+            return userChallenge.get().getUserChallengeId();
         } else{
-            userChallenge = userChallengeMapper.toUserChallenge(userChallengeInfo);
-            userChallengeRepository.save(userChallenge);
+            UserChallenge newUserChallenge = userChallengeMapper.toUserChallenge(userChallengeInfo);
+            log.info("새로 추가된 서비스 정보:{}", newUserChallenge);
+            return userChallengeRepository.save(newUserChallenge).getUserChallengeId();
         }
 
     }
