@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.Normalizer;
 import java.util.UUID;
 
 public class LocalFileUploadService implements FileUploadService{
@@ -14,12 +15,17 @@ public class LocalFileUploadService implements FileUploadService{
     @Value("${UPLOAD_DIR}")
     private String uploadDir;
 
+    public String originalFileName(MultipartFile file){
+        return
+                Normalizer.normalize(file.getOriginalFilename(), Normalizer.Form.NFC);
+    }
+
     @Override
-    public String fileUpload(MultipartFile file) throws IOException {
-        String fileName = UUID.randomUUID().toString() + "_" + file.getOriginalFilename();
-        Path filePath = Paths.get(uploadDir, fileName);
-        Files.createDirectories(filePath.getParent());
-        file.transferTo(filePath.toFile());
+    public String fileUpload(String filePath, MultipartFile file) throws IOException {
+        String fileName = (UUID.randomUUID().toString() + "_" + originalFileName(file)).replaceAll(" ", "_");
+        Path uploadPath = Paths.get(uploadDir, fileName);
+        Files.createDirectories(uploadPath.getParent());
+        file.transferTo(uploadPath.toFile());
         String imageUrl = "http://125.132.216.190:12642/api/files/" + fileName;
 
         return imageUrl;

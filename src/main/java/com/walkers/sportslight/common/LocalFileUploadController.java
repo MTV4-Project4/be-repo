@@ -26,12 +26,13 @@ public class LocalFileUploadController {
         this.fileStorageService = fileStorageService;
     }
 
-    @PostMapping
+    @PostMapping(produces = "application/json; charset=UTF-8")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
             //System.out.println(uploadDir);
 
-            String fileUrl = fileStorageService.fileUpload(file);
+            String fileUrl = fileStorageService.fileUpload("test/"+file.getOriginalFilename(), file);
             return ResponseEntity.ok(fileUrl);
         } catch (IOException e) {
             e.printStackTrace();
