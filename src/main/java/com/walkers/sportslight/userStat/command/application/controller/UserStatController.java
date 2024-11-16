@@ -1,7 +1,7 @@
 package com.walkers.sportslight.userStat.command.application.controller;
 
 import com.walkers.sportslight.userStat.command.application.dto.UserStatRequestDTO;
-import com.walkers.sportslight.userStat.command.application.dto.UserStatUpdateRequest;
+import com.walkers.sportslight.userStat.command.application.dto.UserStatUpdateDTO;
 import com.walkers.sportslight.userStat.command.application.service.UserStatService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
@@ -9,8 +9,6 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("api/user")
@@ -40,9 +38,9 @@ public class UserStatController {
 
     @Operation(summary = "스탯 업데이트")
     @PutMapping("{userNo}/stats")
-    public ResponseEntity<Void> updateMultipleStats(@PathVariable long userNo, @RequestBody List<UserStatUpdateRequest> requests) {
+    public ResponseEntity<Void> updateMultipleStats(@PathVariable long userNo, @RequestBody UserStatUpdateDTO requests) {
         log.debug("req: {}", requests);
-        userStatService.updateMultipleStats(userNo, requests);
+        userStatService.updateMultipleStats(userNo, requests.getUpgrades());
         return ResponseEntity.ok().build();
     }
 }
