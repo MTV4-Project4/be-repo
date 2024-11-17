@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.challengeFavorites.query.repository.ChallengeFavoriteQueryRepository">
+
+    <resultMap id="oneUserFavoriteMap" type="com.walkers.sportslight.challengeFavorites.query.dto.ChallengeFavoriteDTO">
+        <id property="favoriteId" column="favorite_id"/>
+        <result property="challengeName" column="challenge_name"/>
+        <result property="addedDate" column="added_date"/>
+        <result property="challengeExpireTime" column="expires_at"/>
+    </resultMap>
+
+
+    <select id="findByUserNo" resultMap="oneUserFavoriteMap" parameterType="_long">
+        SELECT
+                B.FAVORITE_ID
+              , B.ADDED_DATE
+              , C.CHALLENGE_NAME
+              , C.EXPIRES_AT
+          FROM
+                CHALLENGE_FAVORITE B
+          JOIN
+                CHALLENGE C
+            ON
+                B.CHALLENGE_ID = C.CHALLENGE_ID
+         WHERE
+                B.USER_NO=#{userNo}
+    </select>
+
+</mapper>

@@ -3,11 +3,12 @@ package com.walkers.sportslight;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.cloud.openfeign.EnableFeignClients;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @SpringBootApplication
-@EnableFeignClients
+//@EnableFeignClient
 @EnableCaching
+@EnableJpaAuditing
 public class SportslightApplication {
 
     public static void main(String[] args) {

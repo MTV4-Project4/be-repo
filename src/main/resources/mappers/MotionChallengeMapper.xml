@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.motionChallenge.query.repository.MotionChallengeQueryRepository">
+
+
+<!--    챌린지 요약화면, 랭킹, 참여자수 등 기본 정보 보여주는 쿼리문 작성예정-->
+<!--    <resultMap id="ChallengeRankingMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">-->
+<!--        <id property="challengeId" column="challenge_id"/>-->
+<!--        <result property="challengeName" column="challenge_name"/>-->
+<!--        <result property="expiresAt" column="expires_at"/>-->
+<!--        <result property="participantCount" column="participant_count"/>-->
+<!--        <result property="capacity" column="capacity"/>-->
+<!--        <result property="timeLimit" column="time_limit"/>-->
+<!--        <collection property="rankList" javaType="">-->
+<!--            <id property="userNo" column="user_no"/>-->
+<!--            <result property="ranking" column="ranking"/>-->
+<!--            <result property="nickname" column="nickname"/>-->
+<!--            <result property="record" column="record"/>-->
+<!--        </collection>-->
+
+<!--    </resultMap>-->
+
+    <resultMap id="motionChallengeMap" type="com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeResponseDTO">
+        <id property="motionChallengeId" column="motion_challenge_id"/>
+        <result property="motionChallengeName" column="challenge_name"/>
+        <result property="content" column="content"/>
+        <result property="motionFileUrl" column="motion_file_url"/>
+        <result property="uploaderNo" column="uploader_no"/>
+        <result property="nickname" column="nickname"/>
+        <result property="participateCount" column="participate_count"/>
+    </resultMap>
+
+    <resultMap id="motionChallengeContentMap"
+               type="com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeContentResponseDTO">
+        <id property="motionChallengeId" column="motion_challenge_id"/>
+        <result property="motionChallengeName" column="challenge_name"/>
+        <result property="content" column="content"/>
+    </resultMap>
+
+
+    <select id="findMotionChallenges" resultMap="motionChallengeMap">
+        SELECT
+                A.MOTION_CHALLENGE_ID
+              , A.CONTENT
+              , A.CHALLENGE_NAME
+              , A.UPLOADER_NO
+              , A.PARTICIPATE_COUNT
+              , A.MOTION_FILE_URL
+              , B.NICKNAME
+          FROM
+                MOTION_CHALLENGE A
+          JOIN
+                USER B
+             ON
+                A.UPLOADER_NO = B.USER_NO
+    </select>
+
+    <select id="findMotionChallengeContent" resultMap="motionChallengeContentMap" parameterType="_long">
+        SELECT
+                MOTION_CHALLENGE_ID
+              , CONTENT
+              , CHALLENGE_NAME
+          FROM
+                MOTION_CHALLENGE
+         WHERE
+                MOTION_CHALLENGE_ID=#{motionChallengeId}
+    </select>
+
+
+    <select id="findMotionChallengeById" resultMap="motionChallengeMap" parameterType="_long">
+        SELECT
+                A.MOTION_CHALLENGE_ID
+              , A.CONTENT
+              , A.CHALLENGE_NAME
+              , A.UPLOADER_NO
+              , A.PARTICIPATE_COUNT
+              , A.MOTION_FILE_URL
+              , B.NICKNAME
+          FROM
+                MOTION_CHALLENGE A
+          JOIN
+                USER B
+            ON
+                A.UPLOADER_NO = B.USER_NO
+         WHERE
+                MOTION_CHALLENGE_ID=#{motionChallengeId}
+    </select>
+
+
+<!--    <select id="findChallengeRankById" resultMap="challengeRankingMap" parameterType="_long">-->
+
+<!--        SELECT-->
+<!--                A.CHALLENGE_ID-->
+<!--              , A.CHALLENGE_NAME-->
+<!--              , A.PLACE_NAME-->
+<!--              , A.EXPIRES_AT-->
+<!--              , A.TIME_LIMIT-->
+<!--              , B.USER_NO-->
+<!--              , B.RECORD-->
+<!--              , B.RANKING-->
+<!--              , C.NICKNAME-->
+<!--          FROM-->
+<!--                CHALLENGE A-->
+<!--          JOIN-->
+<!--                (SELECT-->
+<!--                        USER_NO-->
+<!--                      , RECORD-->
+<!--                      , CHALLENGE_ID-->
+<!--                      , RANK() OVER-->
+<!--                            (ORDER BY RECORD DESC, PARTICIPATE_TIME)-->
+<!--                        AS RANKING-->
+
+<!--                  FROM-->
+<!--                        USER_CHALLENGE-->
+<!--                 WHERE-->
+<!--                        challenge_id=#{challengeId}-->
+<!--                )-->
+<!--                B-->
+<!--            ON-->
+<!--                A.CHALLENGE_ID = B.CHALLENGE_ID-->
+<!--          JOIN-->
+<!--                USER C-->
+<!--            ON-->
+<!--                B.USER_NO=C.USER_NO-->
+<!--    </select>-->
+
+<!--    <select id="findChallengeSummaryById" parameterType="_long"-->
+<!--        resultType="com.walkers.sportslight.challenge.query.dto.ChallengeSummaryDTO">-->
+<!--        SELECT-->
+<!--                CHALLENGE_ID-->
+<!--              , CHALLENGE_NAME-->
+<!--              , TIME_LIMIT-->
+<!--              , CONTENT-->
+<!--          FROM-->
+<!--                CHALLENGE A-->
+<!--         WHERE-->
+<!--                challenge_id=#{challengeId}-->
+<!--    </select>-->
+
+<!--    <select id="findChallengeRewardById" parameterType="_long"-->
+<!--            resultType="com.walkers.sportslight.challenge.query.dto.ChallengeRewardResponseDTO">-->
+<!--        SELECT-->
+<!--                A.CHALLENGE_ID-->
+<!--              , A.PLACE_NAME-->
+<!--              , B.REWARD_NAME-->
+<!--              , B.REWARD_BRAND-->
+<!--              , B.REWARD_IMAGE_PATH-->
+<!--              , B.REWARD_DESCRIPTION-->
+<!--          FROM-->
+<!--                CHALLENGE A-->
+<!--          JOIN-->
+<!--                CHALLENGE_REWARD B-->
+<!--            ON-->
+<!--                A.CHALLENGE_ID = B.CHALLENGE_ID-->
+<!--         WHERE-->
+<!--                a.challenge_id=#{challengeId}-->
+<!--    </select>-->
+
+</mapper>

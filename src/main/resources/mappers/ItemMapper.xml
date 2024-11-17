@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.item.query.repository.ItemQueryRepository">
+
+    <resultMap id="itemMap" type="com.walkers.sportslight.item.query.dto.ItemResponseDTO">
+        <id property="itemId" column="item_id"/>
+        <result property="itemName" column="item_name"/>
+        <result property="itemImageUrl" column="item_image_url"/>
+        <result property="itemType" column="item_type"/>
+    </resultMap>
+
+    <select id="findByItemType" resultMap="itemMap"
+            parameterType="com.walkers.sportslight.item.command.domain.aggregate.ItemType">
+        SELECT
+                ITEM_ID
+              , ITEM_NAME
+              , ITEM_IMAGE_URL
+              , ITEM_TYPE
+          FROM
+                TBL_ITEM
+         WHERE
+                ITEM_TYPE=#{itemType}
+    </select>
+
+    <select id="findById" resultMap="itemMap"
+            parameterType="_long">
+        SELECT
+        ITEM_ID
+        , ITEM_NAME
+        , ITEM_IMAGE_URL
+        , ITEM_TYPE
+        FROM
+        ITEM
+        WHERE
+        ITEM_ID=#{itemId}
+    </select>
+
+    <select id="findItems" resultMap="itemMap"
+            parameterType="com.walkers.sportslight.item.command.domain.aggregate.ItemType">
+        SELECT
+                ITEM_ID
+              , ITEM_NAME
+              , ITEM_IMAGE_URL
+              , ITEM_TYPE
+          FROM
+                ITEM
+    </select>
+
+</mapper>
