@@ -9,7 +9,7 @@ import lombok.ToString;
 @Getter
 @RequiredArgsConstructor
 @ToString
-public class UserStatUpdateRequest {
+public class UserStatDTO {
     private final int addExperience;
 
     @Positive(message = "업데이트할 스탯 종류를 입력하세요.")

@@ -1,7 +1,7 @@
 package com.walkers.sportslight.userStat.command.application.service;
 
 import com.walkers.sportslight.userStat.command.application.dto.UserStatMapper;
-import com.walkers.sportslight.userStat.command.application.dto.UserStatUpdateRequest;
+import com.walkers.sportslight.userStat.command.application.dto.UserStatDTO;
 import com.walkers.sportslight.userStat.command.domain.aggregate.StatType;
 import com.walkers.sportslight.userStat.command.domain.aggregate.UserStat;
 import com.walkers.sportslight.userStat.command.domain.repository.UserStatRepository;
@@ -38,7 +38,7 @@ public class UserStatService {
     }
 
     @Transactional
-    public void updateStatExperience( long userNo, UserStatUpdateRequest updateRequest){
+    public void updateStatExperience( long userNo, UserStatDTO updateRequest){
         levelService.addUserExperience(userNo,
                 updateRequest.getStatType(), updateRequest.getAddExperience());
     }
@@ -50,8 +50,8 @@ public class UserStatService {
     }
 
     @Transactional
-    public void updateMultipleStats(long userNo, List<UserStatUpdateRequest> requests) {
-        for (UserStatUpdateRequest request : requests) {
+    public void updateMultipleStats(long userNo, List<UserStatDTO> requests) {
+        for (UserStatDTO request : requests) {
             // 유저 번호가 일치하는지 확인하고 개별 업데이트 수행
             updateStatExperience(userNo, request);
         }

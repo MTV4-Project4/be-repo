@@ -1,4 +1,4 @@
-package com.walkers.sportslight.user.command.domain.model;
+package com.walkers.sportslight.userStat.command.domain.aggregate;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
