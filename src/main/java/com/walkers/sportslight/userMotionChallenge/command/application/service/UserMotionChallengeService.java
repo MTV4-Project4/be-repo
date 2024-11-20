@@ -4,6 +4,7 @@ import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserC
 import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserChallengeAddServiceDTO;
 import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserMotionChallengeMapper;
 import com.walkers.sportslight.userMotionChallenge.command.domain.aggregate.UserMotionChallenge;
+import com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO.SimilarityResult;
 import com.walkers.sportslight.userMotionChallenge.command.domain.repository.UserMotionChallengeRepository;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.SimilarityCheckService;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.UserMotionFileUploadService;
@@ -30,7 +31,7 @@ public class UserMotionChallengeService {
             throw new RuntimeException("파일 업로드에 실패했습니다");
         }
 
-        double similarity = similarityCheckService.getSimilarity(
+        SimilarityResult similarityResult = similarityCheckService.getSimilarity(
                 userChallengeAddInfo.getMotionChallengeId(),
                 userMotionUrl
         );
@@ -40,9 +41,11 @@ public class UserMotionChallengeService {
         );
 
         UserMotionChallenge registeredChallenge = userMotionBoardService.addUserMotionChallenge(
-                userMotionChallenge, userMotionUrl, similarity);
+                userMotionChallenge, userMotionUrl, similarityResult.getSimilarityScore());
         return new UserChallengeAddResponseDTO(
-                registeredChallenge.getUserMotionId(), registeredChallenge.getSimilarity()
+                registeredChallenge.getUserMotionId(),
+                registeredChallenge.getSimilarity(),
+                similarityResult.getResult()
         );
 
 
