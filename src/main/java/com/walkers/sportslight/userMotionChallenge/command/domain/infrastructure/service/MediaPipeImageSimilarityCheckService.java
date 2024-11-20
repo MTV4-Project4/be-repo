@@ -21,7 +21,7 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
     }
 
     @Override
-    public double getSimilarity(long motionChallengeId, String userMotionFileUrl) {
+    public SimilarityResult getSimilarity(long motionChallengeId, String userMotionFileUrl) {
 
         String baseMotionUrl = motionChallengeService.getMotionImageUrl(motionChallengeId);
 
@@ -33,7 +33,7 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
                             )
                     );
 
-            return similarityResult.getSimilarityScore();
+            return similarityResult;
 
         } catch (Exception e) {
             log.warn("failed to calculate similarity. baseImageUrl:{}, userMotionFileUrl:{}",
@@ -41,6 +41,11 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
             throw new RuntimeException("유사도 측정 중 오류가 발생했습니다.");
         }
         //return 0;
+    }
+
+    @Override
+    public String getResult(double similarity) {
+        return similarity>=80? "성공":"실패";
     }
 
 
