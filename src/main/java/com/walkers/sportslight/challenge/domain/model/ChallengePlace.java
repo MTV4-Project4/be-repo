@@ -4,25 +4,19 @@ import jakarta.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 @Embeddable
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Coordinate {
+public class ChallengePlace {
+    private String placeName;
     private Double longitude; // 경도
     private Double latitude; // 위도
 
-    public Coordinate(Double longitude, Double latitude) {
+
+    public ChallengePlace(String placeName, Double longitude, Double latitude) {
+        this.placeName = placeName;
         this.longitude = longitude;
         this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public Double getLatitude() {
-        return latitude;
     }
 }

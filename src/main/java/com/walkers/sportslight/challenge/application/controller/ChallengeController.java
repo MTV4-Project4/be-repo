@@ -1,9 +1,11 @@
 package com.walkers.sportslight.challenge.application.controller;
 
-import com.walkers.sportslight.challenge.application.dto.ChallengeRequest;
+import com.walkers.sportslight.api.ApiResponse;
+import com.walkers.sportslight.challenge.application.dto.ChallengeAddRequest;
 import com.walkers.sportslight.challenge.application.service.ChallengeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,14 +21,14 @@ public class ChallengeController {
 
     @PostMapping("challenge")
     @Operation(summary = "챌린지 등록")
-    public void addChallenge(@RequestBody ChallengeRequest challengeRegist) {
-        challengeService.addChallenge(challengeRegist);
-
+    public long addChallenge(@RequestBody ChallengeAddRequest challengeRegist) {
+        long challengeId = challengeService.addChallenge(challengeRegist);
+        return challengeId;
     }
 
     @PutMapping("challenge/{challengeId}")
     @Operation(summary = "챌린지 수정")
-    public void updateChallenge(@PathVariable long challengeId, @RequestBody ChallengeRequest challengeUpdate) {
+    public void updateChallenge(@PathVariable long challengeId, @RequestBody ChallengeAddRequest challengeUpdate) {
         // challengeUpdate
         challengeService.updateChallenge(challengeId, challengeUpdate);
     }
