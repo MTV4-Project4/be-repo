@@ -34,18 +34,27 @@ public class UserAuthRequestDTO {
             String phoneNumber,
 
             @NotBlank(message = "주소를 입력해 주세요.")
-            String address
+            String address,
+
+            @Positive(message = "키는 양수로 입력해주세요")
+            double height,
+
+            @Positive(message = "몸무게는 양수로 입력해주세요")
+            double weight
     ) {
 
         @Override
         public String toString() {
-            return "signUpInfo{" +
+            return "signUpDTO{" +
                     "nickname='" + nickname + '\'' +
                     ", userId='" + userId + '\'' +
                     ", password='" + "[PROTECTED]" + '\'' +
                     ", year=" + year +
                     ", month=" + month +
-                    ", day=" + day ;
+                    ", day=" + day +
+                    ", height=" + height +
+                    ", weight=" + weight +
+                    '}';
         }
     }
 

@@ -4,27 +4,31 @@ import com.walkers.sportslight.user.command.application.dto.UserRegistMapper;
 import com.walkers.sportslight.user.command.application.dto.UserRegistServiceDTO;
 import com.walkers.sportslight.user.command.domain.model.User;
 import com.walkers.sportslight.user.command.domain.repository.UserRepository;
+import com.walkers.sportslight.user.command.domain.service.LoginService;
+import com.walkers.sportslight.userStat.command.application.service.UserStatService;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.NoSuchElementException;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class UserService {
 
-    private UserRepository userRepository;
-    private UserRegistMapper userRegistMapper;
+    private final UserRepository userRepository;
+    private final UserRegistMapper userRegistMapper;
+    private final LoginService loginService;
+    private final UserStatService userStatService;
 
     public User findByUserNo(Long userNo) {
-        return userRepository.findById(userNo)
+        User foundUser = userRepository.findById(userNo)
                 .orElseThrow(()-> new NoSuchElementException("해당 유저 이름을 찾을 수 없습니다."));
-    }
 
-    public UserService(UserRepository userRepository, UserRegistMapper userRegistMapper) {
-        this.userRepository = userRepository;
-        this.userRegistMapper = userRegistMapper;
+        return foundUser;
     }
 
     public int getUserMoney(long userNo){
@@ -41,42 +45,33 @@ public class UserService {
         user.setMoney(user.getMoney() - money);
     }
 
+    @Transactional
     public void registUser(UserRegistServiceDTO userRegistInfo) {
         User user = userRegistMapper.toUser(userRegistInfo);
-        userRepository.save(user);
+        user.setPassword(loginService.encodePassword(
+                user.getPassword()
+        ));
+        User createdUser = userRepository.save(user);
+        userStatService.initUserStat(createdUser.getUserNo());
     }
 
-    public void loginUser(String userId, String password) {
+    public long loginUser(String userId, String password) {
 
         try{
-            User user = userRepository.findByUserId(userId).orElseThrow(
-                    ()-> new IllegalArgumentException("아이디 또는 비밀번호를 확인하세요")
-            );
-
-            log.info("로그인 성공: ID {}", userId);
-
+            return loginService.login(userId, password);
         } catch (RuntimeException e) {
             throw new IllegalArgumentException("아이디 또는 비밀번호를 확인하세요");
         }
 
-
     }
 
-    private void checkValidPassword(String rawPassword, String encodedPassword) {
-
-        //log.info("{} {}", rawPassword, encodedPassword);
-
-//        if(!passwordEncoder.matches(rawPassword, encodedPassword)) {
-//            throw new ApplicationException(ErrorCode.INVALID_PASSWORD);
-//        }
-    }
 
     public void withdrawUser(long userNo) {
         userRepository.deleteById(userNo);
     }
 
-//    public void withdrawUserByUserId(String userId){
-//        userRepository.deleteByUserId(userId);
-//    }
+    public void withdrawUserByUserId(String userId){
+        userRepository.deleteByUserId(userId);
+    }
 
 }
