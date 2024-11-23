@@ -30,8 +30,11 @@ public class User {
 
     private int money;
 
+    private double height;
+    private double weight;
+
     @Builder
-    public User(String userId, String password, String nickname, Birthday birthday, String phoneNumber, String address, Authority authority, UserStatus status, int money) {
+    public User(String userId, String password, String nickname, Birthday birthday, String phoneNumber, String address, Authority authority, UserStatus status, int money, double height, double weight) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
@@ -41,7 +44,10 @@ public class User {
         this.authority = authority;
         this.status = status;
         this.money = money;
+        this.height = height;
+        this.weight = weight;
     }
+
 
     public void setMoney(int money) {
         this.money = money;
