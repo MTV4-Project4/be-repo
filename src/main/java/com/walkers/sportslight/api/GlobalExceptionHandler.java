@@ -15,9 +15,24 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(BindException.class)
     public ApiResponse<Object> bindException(BindException e) {
+        // 예외 로깅
+        log.warn("BindException occurred: {}", e.getMessage(), e);
+
         return ApiResponse.of(
                 HttpStatus.BAD_REQUEST,
                 e.getBindingResult().getAllErrors().get(0).getDefaultMessage()
+        );
+    }
+
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(Exception.class)
+    public ApiResponse<Object> handleGeneralException(Exception e) {
+        // 일반적인 예외 로깅
+        log.error("Unhandled exception occurred: {}", e.getMessage(), e);
+
+        return ApiResponse.of(
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                "An unexpected error occurred"
         );
     }
 }

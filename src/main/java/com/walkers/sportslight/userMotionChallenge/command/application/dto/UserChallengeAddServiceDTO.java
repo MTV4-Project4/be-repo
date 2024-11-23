@@ -8,6 +8,6 @@ import org.springframework.web.multipart.MultipartFile;
 @Getter
 public class UserChallengeAddServiceDTO {
     private final long userNo;
-    private final long motionChallengeNo;
+    private final long motionChallengeId;
     private final MultipartFile addImage;
 }

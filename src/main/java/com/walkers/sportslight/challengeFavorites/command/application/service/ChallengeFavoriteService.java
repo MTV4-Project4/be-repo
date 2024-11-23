@@ -7,6 +7,7 @@ import com.walkers.sportslight.challengeFavorites.command.application.dto.reques
 import com.walkers.sportslight.challengeFavorites.command.domain.aggregate.ChallengeFavorite;
 import com.walkers.sportslight.challengeFavorites.command.domain.repository.ChallengeFavoriteRepository;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +19,14 @@ public class ChallengeFavoriteService {
     private ChallengeFavoriteMapper challengeFavoriteMapper;
     private ChallengeService challengeService;
 
-    public ChallengeFavoriteService(ChallengeFavoriteRepository challengeFavoriteRepository,
-                                    ChallengeFavoriteMapper challengeFavoriteMapper) {
+
+    public ChallengeFavoriteService(ChallengeFavoriteRepository challengeFavoriteRepository, ChallengeFavoriteMapper challengeFavoriteMapper, ChallengeService challengeService) {
         this.challengeFavoriteRepository = challengeFavoriteRepository;
         this.challengeFavoriteMapper = challengeFavoriteMapper;
+        this.challengeService = challengeService;
     }
 
+    @Transactional
     public long addFavorite(ChallengeFavoriteAddServiceDTO challengeFavoriteInfo){
         ChallengeFavorite userFavorite = challengeFavoriteMapper.toFavorite(challengeFavoriteInfo);
         return challengeFavoriteRepository.save(userFavorite).getFavoriteId();
@@ -35,14 +38,21 @@ public class ChallengeFavoriteService {
         );
     }
 
+    @Transactional
     public void deleteFavoriteByUserAndChallengeId(long userNo, long challengeId){
         challengeFavoriteRepository.deleteChallengeFavoriteByUserNoAndChallengeId(
                 userNo, challengeId);
     }
 
+
+    @Transactional
     public void deleteFavoriteByUserAndChallengeName(long userNo, String challengeName){
+
         Long challengeId = challengeService.findChallengeIdByName(challengeName);
+        log.info("map challenge name {} to challengeId:{}", challengeName, challengeId);
+
         if (challengeId!=null){
+
             deleteFavoriteByUserAndChallengeId(userNo,challengeId);
         } else{
             log.warn("there is no favorite that has challenge name {}.", challengeName);

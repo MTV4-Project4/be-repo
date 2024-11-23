@@ -1,6 +1,7 @@
 package com.walkers.sportslight.motionChallenge.query.service;
 
 import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeContentResponseDTO;
+import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeImageResponseDTO;
 import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeResponseDTO;
 import com.walkers.sportslight.motionChallenge.query.repository.MotionChallengeQueryRepository;
 import org.springframework.stereotype.Service;
@@ -26,5 +27,9 @@ public class MotionChallengeQueryService {
 
     public MotionChallengeResponseDTO findMotionChallengeById(long challengeId) {
         return motionChallengeQueryRepository.findMotionChallengeById(challengeId);
+    }
+
+    public MotionChallengeImageResponseDTO findMotionChallengeImageById(long motionChallengeId) {
+        return motionChallengeQueryRepository.findMotionChallengeImageById(motionChallengeId);
     }
 }

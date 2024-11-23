@@ -1,6 +1,7 @@
 package com.walkers.sportslight.motionChallenge.query.controller;
 
 import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeContentResponseDTO;
+import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeImageResponseDTO;
 import com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeResponseDTO;
 import com.walkers.sportslight.motionChallenge.query.service.MotionChallengeQueryService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -41,5 +42,13 @@ public class MotionChallengeQueryController {
             @PathVariable long motionChallengeId
     ) {
         return motionChallengeQueryService.findMotionChallengeContentById(motionChallengeId);
+    }
+
+    @Operation(summary = "모션 챌린지 이미지 보기")
+    @GetMapping("/motion-challenge/{motionChallengeId}/image")
+    public MotionChallengeImageResponseDTO findMotionChallengeImage(
+            @PathVariable long motionChallengeId
+    ) {
+        return motionChallengeQueryService.findMotionChallengeImageById(motionChallengeId);
     }
 }

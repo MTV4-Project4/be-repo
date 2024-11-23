@@ -9,12 +9,14 @@ import com.walkers.sportslight.userMotionChallenge.command.domain.repository.Use
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.SimilarityCheckService;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.UserMotionFileUploadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserMotionChallengeService {
 
     private final UserMotionChallengeRepository userMotionChallengeRepository;
@@ -35,6 +37,9 @@ public class UserMotionChallengeService {
                 userChallengeAddInfo.getMotionChallengeId(),
                 userMotionUrl
         );
+
+        log.info("similarity test userNo:{}, result:{}", userChallengeAddInfo.getUserNo(),
+                similarityResult);
 
         UserMotionChallenge userMotionChallenge = userMotionChallengeMapper.toUserMotionChallenge(
                 userChallengeAddInfo
