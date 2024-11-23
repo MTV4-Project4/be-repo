@@ -1,23 +1,25 @@
 package com.walkers.sportslight.challenge.query.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
-public class ChallengeDetailDTO {
+@Setter
+@NoArgsConstructor
+//현재 1등정보를 포함한 dto
+public class ChallengeIntroDTO {
     private long challengeId;
     private String challengeName;
-    private String challengeDescription;
-
+    private String content;
     private int timeLimit;
     private int participantCount;
     private int capacity;
-    private LocalDateTime expiresAt;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime expiresAt;
+    private long firstUserNo;
     private String firstUserName;
     private Integer firstUserScore;
 }

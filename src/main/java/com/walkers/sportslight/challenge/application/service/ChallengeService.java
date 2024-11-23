@@ -1,7 +1,7 @@
 package com.walkers.sportslight.challenge.application.service;
 
 import com.walkers.sportslight.challenge.application.dto.ChallengeMapper;
-import com.walkers.sportslight.challenge.application.dto.ChallengeRequest;
+import com.walkers.sportslight.challenge.application.dto.ChallengeAddRequest;
 import com.walkers.sportslight.challenge.domain.model.Challenge;
 import com.walkers.sportslight.challenge.domain.repository.ChallengeRepository;
 import org.springframework.stereotype.Service;
@@ -26,10 +26,22 @@ public class ChallengeService {
                 );
     }
 
+    public Long findChallengeIdByName(String challengeName){
+        Challenge challenge = challengeRepository.findChallengeByChallengeName(challengeName)
+                .orElse(
+                        null
+                );
+        if(challenge==null){
+            return null;
+        } else{
+            return challenge.getChallengeId();
+        }
+    }
 
-    public void addChallenge(ChallengeRequest challengeRequest) {
-        Challenge challenge = challengeMapper.toChallenge(challengeRequest);
-        challengeRepository.save(challenge);
+    public long addChallenge(ChallengeAddRequest challengeAddRequest) {
+        Challenge challenge = challengeMapper.toChallenge(challengeAddRequest);
+        Challenge registedChallenge = challengeRepository.save(challenge);
+        return registedChallenge.getChallengeId();
 
     }
 
@@ -37,7 +49,7 @@ public class ChallengeService {
         challengeRepository.deleteById(challengeId);
     }
 
-    public void updateChallenge(long challengeId, ChallengeRequest challengeUpdate) {
+    public void updateChallenge(long challengeId, ChallengeAddRequest challengeUpdate) {
         Challenge challenge = findChallenge(challengeId);
 
 

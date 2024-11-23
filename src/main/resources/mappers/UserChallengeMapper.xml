@@ -51,6 +51,28 @@
                 USER_NO = #{userNo}
     </select>
 
+    <select id="findUserChallengeRank" parameterType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeSearchDTO"
+            resultType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeRecordDTO">
+        SELECT
+              USER_NO
+            , CHALLENGE_ID
+            , RANKING
+            , RECORD
 
+        FROM
+            (SELECT
+                USER_CHALLENGE_ID
+              , USER_NO
+              , CHALLENGE_ID
+              , RANK() OVER
+            (ORDER BY RECORD DESC, PARTICIPATE_TIME)
+                AS RANKING
+              , RECORD
+          FROM
+                USER_CHALLENGE
+         WHERE
+                challenge_id=#{challengeId}) B
+        WHERE USER_NO=#{userNo}
+    </select>
 
 </mapper>

@@ -40,6 +40,12 @@
         <result property="content" column="content"/>
     </resultMap>
 
+    <resultMap id="motionChallengeImageMap"
+               type="com.walkers.sportslight.motionChallenge.query.dto.MotionChallengeImageResponseDTO">
+        <id property="motionChallengeId" column="motion_challenge_id"/>
+        <result property="motionFileUrl" column="motion_file_url"/>
+    </resultMap>
+
 
     <select id="findMotionChallenges" resultMap="motionChallengeMap">
         SELECT
@@ -68,6 +74,17 @@
          WHERE
                 MOTION_CHALLENGE_ID=#{motionChallengeId}
     </select>
+
+    <select id="findMotionChallengeImageById" resultMap="motionChallengeImageMap" parameterType="_long">
+        SELECT
+                MOTION_CHALLENGE_ID
+              , MOTION_FILE_URL
+          FROM
+                MOTION_CHALLENGE
+         WHERE
+                MOTION_CHALLENGE_ID=#{motionChallengeId}
+    </select>
+
 
 
     <select id="findMotionChallengeById" resultMap="motionChallengeMap" parameterType="_long">

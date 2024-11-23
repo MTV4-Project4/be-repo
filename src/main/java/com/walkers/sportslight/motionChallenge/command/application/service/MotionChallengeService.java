@@ -47,7 +47,7 @@ public class MotionChallengeService {
             throw new RuntimeException("파일 업로드에 실패했습니다");
         }
 
-        log.info("나온 파일 url:{}", fileUploadUrl);
+        //log.info("나온 파일 url:{}", fileUploadUrl);
         challengeBoardService.setImage(challengeId, fileUploadUrl);
     }
 

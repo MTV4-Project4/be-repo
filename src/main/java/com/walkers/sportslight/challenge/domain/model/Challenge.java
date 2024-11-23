@@ -15,39 +15,41 @@ import java.time.LocalDateTime;
 public class Challenge extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long challengeId;
+    private Long challengeId;
 
     private String challengeName;
     private String content;
-    private long uploaderNo;
+
+    @Column(nullable = true)
+    private Long uploaderNo;
+
     private int timeLimit;
     private int participantCount; // 현재 참가자 수
     private int capacity; // 허용 참가자 수
 
     @Embedded
-    private Coordinate challengeCoords;
+    private ChallengePlace challengePlace;
     private LocalDateTime expiresAt;
 
     @Builder
-    public Challenge(String challengeName, String content, int timeLimit, int participantCount, int capacity,
-                     long uploaderNo, Coordinate challengeCoords, LocalDateTime expiresAt) {
+    public Challenge(String challengeName, String content, long uploaderNo, int timeLimit, int participantCount, int capacity, ChallengePlace challengePlace, LocalDateTime expiresAt) {
         this.challengeName = challengeName;
         this.content = content;
+        this.uploaderNo = uploaderNo;
         this.timeLimit = timeLimit;
         this.participantCount = participantCount;
         this.capacity = capacity;
-        this.uploaderNo = uploaderNo;
-        this.challengeCoords = challengeCoords;
+        this.challengePlace = challengePlace;
         this.expiresAt = expiresAt;
     }
 
     public void update(String challengeName, String content, int timeLimit, int capacity,
-                    Coordinate challengeCoords, LocalDateTime expiresAt){
+                       ChallengePlace challengeCoords, LocalDateTime expiresAt){
         this.challengeName = challengeName;
         this.content = content;
         this.timeLimit = timeLimit;
         this.capacity = capacity;
-        this.challengeCoords = challengeCoords;
+        this.challengePlace = challengeCoords;
         this.expiresAt = expiresAt;
     }
 

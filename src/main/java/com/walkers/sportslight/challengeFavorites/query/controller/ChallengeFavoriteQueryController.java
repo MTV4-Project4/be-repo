@@ -6,10 +6,12 @@ import com.walkers.sportslight.challengeFavorites.query.service.ChallengeFavorit
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("api")
 @Tag(name="챌린지 즐겨찾기 조회 API", description = "유저가 등록한 챌린지 즐겨찾기 정보를 조회하는 API")
@@ -25,6 +27,8 @@ public class ChallengeFavoriteQueryController {
     @Operation(summary = "유저 챌린지 즐겨찾기 조회")
     @GetMapping("user/{userNo}/challenge-favorite")
     public UserFavoriteResponseDTO findUserChallengeFavorite(@PathVariable long userNo){
+
+        log.info("try to get user-favorite list, userNo:{}", userNo);
         return new UserFavoriteResponseDTO(
                 userNo,
                 challengeFavoriteQueryService.findUserFavorite(userNo)

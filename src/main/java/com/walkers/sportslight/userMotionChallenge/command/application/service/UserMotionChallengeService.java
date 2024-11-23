@@ -4,16 +4,19 @@ import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserC
 import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserChallengeAddServiceDTO;
 import com.walkers.sportslight.userMotionChallenge.command.application.dto.UserMotionChallengeMapper;
 import com.walkers.sportslight.userMotionChallenge.command.domain.aggregate.UserMotionChallenge;
+import com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO.SimilarityResult;
 import com.walkers.sportslight.userMotionChallenge.command.domain.repository.UserMotionChallengeRepository;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.SimilarityCheckService;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.UserMotionFileUploadService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserMotionChallengeService {
 
     private final UserMotionChallengeRepository userMotionChallengeRepository;
@@ -30,19 +33,24 @@ public class UserMotionChallengeService {
             throw new RuntimeException("파일 업로드에 실패했습니다");
         }
 
-        double similarity = similarityCheckService.getSimilarity(
+        SimilarityResult similarityResult = similarityCheckService.getSimilarity(
                 userChallengeAddInfo.getMotionChallengeId(),
                 userMotionUrl
         );
+
+        log.info("similarity test userNo:{}, result:{}", userChallengeAddInfo.getUserNo(),
+                similarityResult);
 
         UserMotionChallenge userMotionChallenge = userMotionChallengeMapper.toUserMotionChallenge(
                 userChallengeAddInfo
         );
 
         UserMotionChallenge registeredChallenge = userMotionBoardService.addUserMotionChallenge(
-                userMotionChallenge, userMotionUrl, similarity);
+                userMotionChallenge, userMotionUrl, similarityResult.getSimilarityScore());
         return new UserChallengeAddResponseDTO(
-                registeredChallenge.getUserMotionId(), registeredChallenge.getSimilarity()
+                registeredChallenge.getUserMotionId(),
+                registeredChallenge.getSimilarity(),
+                similarityResult.getResult()
         );
 
 

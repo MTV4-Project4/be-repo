@@ -63,6 +63,9 @@ dependencies {
     //aws
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    //security
+    implementation 'org.springframework.security:spring-security-core:6.3.3'
+
 
 
 }

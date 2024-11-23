@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.walkers.sportslight.challenge.query.repository.ChallengeQueryRepository">
+
+
+<!--    챌린지 요약화면, 랭킹, 참여자수 등 기본 정보 보여주는 쿼리문 작성예정-->
+<!--    <resultMap id="ChallengeRankingMap" type="com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteDTO">-->
+<!--        <id property="challengeId" column="challenge_id"/>-->
+<!--        <result property="challengeName" column="challenge_name"/>-->
+<!--        <result property="expiresAt" column="expires_at"/>-->
+<!--        <result property="participantCount" column="participant_count"/>-->
+<!--        <result property="capacity" column="capacity"/>-->
+<!--        <result property="timeLimit" column="time_limit"/>-->
+<!--        <collection property="rankList" javaType="">-->
+<!--            <id property="userNo" column="user_no"/>-->
+<!--            <result property="ranking" column="ranking"/>-->
+<!--            <result property="nickname" column="nickname"/>-->
+<!--            <result property="record" column="record"/>-->
+<!--        </collection>-->
+
+<!--    </resultMap>-->
+
+    <resultMap id="challengeMap" type="com.walkers.sportslight.challenge.query.dto.ChallengeDTO">
+        <id property="challengeId" column="challenge_id"/>
+        <result property="challengeName" column="challenge_name"/>
+        <result property="content" column="content"/>
+        <result property="timeLimit" column="time_limit"/>
+        <result property="expiresAt" column="expires_at"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="participantCount" column="participant_count"/>
+        <result property="capacity" column="capacity"/>
+        <result property="uploaderNo" column="uploader_no"/>
+        <result property="placeName" column="place_name"/>
+        <result property="longitude" column="longitude"/>
+        <result property="latitude" column="latitude"/>
+    </resultMap>
+
+
+    <resultMap id="challengeIntroMap" type="com.walkers.sportslight.challenge.query.dto.ChallengeIntroDTO">
+                <id property="challengeId" column="challenge_id"/>
+                <result property="challengeName" column="challenge_name"/>
+                <result property="content" column="content"/>
+                <result property="timeLimit" column="time_limit"/>
+                <result property="expiresAt" column="expires_at"/>
+                <result property="participantCount" column="participant_count"/>
+                <result property="capacity" column="capacity"/>
+                <result property="firstUserNo" column="first_user_no"/>
+                <result property="firstUserName" column="first_user_name"/>
+                <result property="firstUserScore" column="first_user_score"/>
+    </resultMap>
+
+    <resultMap id="challengeSpotMap" type="com.walkers.sportslight.challenge.query.dto.ChallengeSpotResponseDTO">
+        <id property="challengeId" column="CHALLENGE_ID" />
+        <result property="latitude" column="LATITUDE" />
+        <result property="longitude" column="LONGITUDE" />
+        <result property="expiresAt" column="EXPIRES_AT" />
+        <result property="rewardImagePath" column="REWARD_IMAGE_PATH" />
+        <result property="placeName" column="PLACE_NAME" /> <!-- 추가된 매핑 -->
+    </resultMap>
+
+    <resultMap id="challengeRankingMap" type="com.walkers.sportslight.challenge.query.dto.ChallengeRankingResponseDTO">
+        <id property="challengeId" column="challenge_id"/>
+        <result property="challengeName" column="challenge_name"/>
+        <result property="content" column="content"/>
+        <result property="placeName" column="place_name"/>
+        <result property="timeLimit" column="time_limit"/>
+        <result property="expiresAt" column="expires_at"/>
+        <collection property="userRank" ofType="com.walkers.sportslight.challenge.query.dto.UserRank">
+            <result property="ranking" column="ranking"/>
+            <result property="record" column="record"/>
+            <result property="userNo" column="user_no"/>
+            <result property="nickname" column="nickname"/>
+        </collection>
+    </resultMap>
+
+    <select id="findChallengeInfoById" resultMap="challengeIntroMap">
+        SELECT
+                A.CHALLENGE_ID
+              , A.CONTENT
+              , A.CHALLENGE_NAME
+              , A.TIME_LIMIT
+              , A.EXPIRES_AT
+              , A.PARTICIPANT_COUNT
+              , A.CAPACITY
+              , B.RECORD AS FIRST_USER_SCORE
+              , B.USER_NO AS FIRST_USER_NO
+              , B.NICKNAME AS FIRST_USER_NAME
+          FROM
+                CHALLENGE A
+          JOIN
+                (SELECT
+                        C.CHALLENGE_ID
+                      , C.RECORD
+                      , D.USER_NO
+                      , D.NICKNAME
+                   FROM
+                        USER_CHALLENGE C
+                   JOIN
+                        USER D
+                     ON
+                        C.USER_NO = D.USER_NO
+                  WHERE
+                        C.CHALLENGE_ID = #{challengeId}
+                  ORDER BY
+                        C.RECORD DESC
+                  LIMIT 1
+                  ) B
+             ON
+                A.CHALLENGE_ID = B.CHALLENGE_ID
+
+    </select>
+
+    <select id="findChallengeById" resultMap="challengeMap" parameterType="_long">
+
+        SELECT
+                CHALLENGE_ID
+              , CHALLENGE_NAME
+              , PLACE_NAME
+              , EXPIRES_AT
+              , TIME_LIMIT
+              , UPLOADER_NO
+              , CONTENT
+              , CREATED_AT
+              , PARTICIPANT_COUNT
+              , CAPACITY
+              , LATITUDE
+              , LONGITUDE
+          FROM
+                CHALLENGE
+         WHERE
+                challenge_id=#{challengeId}
+    </select>
+
+
+
+    <select id="findChallengeSpotList" resultMap="challengeSpotMap">
+        SELECT
+                A.CHALLENGE_ID
+<!--              , A.CHALLENGE_DESCRIPTION-->
+<!--              , A.CHALLENGE_NAME-->
+              , A.PLACE_NAME
+              , A.LATITUDE
+              , A.LONGITUDE
+              , A.EXPIRES_AT
+<!--              , A.PARTICIPANT_COUNT-->
+              , A.CAPACITY
+              , B.REWARD_IMAGE_PATH
+          FROM
+                CHALLENGE A
+          JOIN
+                CHALLENGE_REWARD B
+            ON
+                A.CHALLENGE_ID = B.CHALLENGE_ID
+    </select>
+
+    <select id="findChallengeRankById" resultMap="challengeRankingMap" parameterType="_long">
+
+        SELECT
+                A.CHALLENGE_ID
+              , A.CHALLENGE_NAME
+              , A.PLACE_NAME
+              , A.EXPIRES_AT
+              , A.TIME_LIMIT
+              , B.USER_NO
+              , B.RECORD
+              , B.RANKING
+              , C.NICKNAME
+          FROM
+                CHALLENGE A
+          JOIN
+                (SELECT
+                        USER_NO
+                      , RECORD
+                      , CHALLENGE_ID
+                      , RANK() OVER
+                            (ORDER BY RECORD DESC, PARTICIPATE_TIME)
+                        AS RANKING
+
+                  FROM
+                        USER_CHALLENGE
+                 WHERE
+                        challenge_id=#{challengeId}
+                )
+                B
+            ON
+                A.CHALLENGE_ID = B.CHALLENGE_ID
+          JOIN
+                USER C
+            ON
+                B.USER_NO=C.USER_NO
+    </select>
+
+    <select id="findChallengeSummaryById" parameterType="_long"
+        resultType="com.walkers.sportslight.challenge.query.dto.ChallengeSummaryDTO">
+        SELECT
+                CHALLENGE_ID
+              , CHALLENGE_NAME
+              , TIME_LIMIT
+              , CONTENT
+          FROM
+                CHALLENGE A
+         WHERE
+                challenge_id=#{challengeId}
+    </select>
+
+    <select id="findChallengeRewardById" parameterType="_long"
+            resultType="com.walkers.sportslight.challenge.query.dto.ChallengeRewardResponseDTO">
+        SELECT
+                A.CHALLENGE_ID
+              , A.PLACE_NAME
+              , B.REWARD_NAME
+              , B.REWARD_BRAND
+              , B.REWARD_IMAGE_PATH
+              , B.REWARD_DESCRIPTION
+          FROM
+                CHALLENGE A
+          JOIN
+                CHALLENGE_REWARD B
+            ON
+                A.CHALLENGE_ID = B.CHALLENGE_ID
+         WHERE
+                a.challenge_id=#{challengeId}
+    </select>
+
+</mapper>
