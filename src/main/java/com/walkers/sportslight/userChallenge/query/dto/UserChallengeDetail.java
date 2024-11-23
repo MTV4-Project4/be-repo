@@ -1,15 +1,13 @@
 package com.walkers.sportslight.userChallenge.query.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
 @Setter
 @Getter
+@ToString
 public class UserChallengeDetail {
     private long UserChallengeId;
     private long userNo;

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @RequiredArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ChallengeAddRequest {
     @NotBlank(message = "챌린지 이름은 필수입니다.")
     private final String challengeName;

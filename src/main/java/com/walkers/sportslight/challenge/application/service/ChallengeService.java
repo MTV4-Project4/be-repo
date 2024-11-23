@@ -27,7 +27,15 @@ public class ChallengeService {
     }
 
     public Long findChallengeIdByName(String challengeName){
-        return challengeRepository.findChallengeIdByChallengeName(challengeName);
+        Challenge challenge = challengeRepository.findChallengeByChallengeName(challengeName)
+                .orElse(
+                        null
+                );
+        if(challenge==null){
+            return null;
+        } else{
+            return challenge.getChallengeId();
+        }
     }
 
     public long addChallenge(ChallengeAddRequest challengeAddRequest) {

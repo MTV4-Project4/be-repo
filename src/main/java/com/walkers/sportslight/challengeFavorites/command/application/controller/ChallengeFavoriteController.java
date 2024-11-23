@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriUtils;
 
 import java.time.LocalDateTime;
 
@@ -80,8 +81,9 @@ public class ChallengeFavoriteController {
     @Operation(summary = "챌린지 즐겨찾기 이름으로 삭제")
     @DeleteMapping("user/{userNo}/challenge-favorite/{challengeName}")
     public void deleteFavorite(@PathVariable long userNo, @PathVariable String challengeName){
-        log.info("try to delete challenge-favorite, userNo:{}, challengeId:{}",userNo, challengeName);
-        challengeFavoriteService.deleteFavoriteByUserAndChallengeName(userNo, challengeName);
+        String decodedChallengeName = UriUtils.decode(challengeName, "UTF-8");
+        log.info("decoded challenge Name:{}", decodedChallengeName);
+        challengeFavoriteService.deleteFavoriteByUserAndChallengeName(userNo, decodedChallengeName);
     }
 
     @Operation(summary = "모션 챌린지 좋아요 추가")

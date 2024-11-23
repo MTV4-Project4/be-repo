@@ -4,6 +4,7 @@ import com.walkers.sportslight.motionChallenge.command.application.service.Motio
 import com.walkers.sportslight.userMotionChallenge.command.domain.aggregate.UserMotionChallenge;
 import com.walkers.sportslight.userMotionChallenge.command.domain.repository.UserMotionChallengeRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,6 +12,7 @@ import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserMotionBoardService {
 
     private final MotionChallengeService motionChallengeService;
@@ -27,6 +29,7 @@ public class UserMotionBoardService {
 
         motionChallengeService.updateParticipate(userMotionChallenge.getMotionChallengeId(),
                 1);
+        log.info("added userMotionChallenge, info:{}", userMotionChallenge);
         return userMotionChallengeRepository.save(userMotionChallenge);
     }
 
