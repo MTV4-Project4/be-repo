@@ -22,7 +22,9 @@ public class HttpClientConfig {
                 .build();
 
         return WebClient.builder()
-                .baseUrl("http://metaai2.iptime.org:7900/") // 기본 URL
+                //.baseUrl("https://3fb9-2406-5900-1075-c452-f142-99eb-46e9-c779.ngrok-free.app:7900")
+                //.baseUrl("http://metaai2.iptime.org:7900/") // 기본 URL
+                .defaultHeader("ngrok-skip-browser-warning", "true") // ngrok 경고 우회 헤더 추가
                 .exchangeStrategies(exchangeStrategies)
                 .build();
     }

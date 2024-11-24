@@ -25,7 +25,7 @@ public class ItemTransactionService {
     private final UserInventoryService userInventoryService;
 
     @Transactional
-    public void purchaseItem(ItemPurchaseServiceRequest itemPurchaseInfo){
+    public long purchaseItem(ItemPurchaseServiceRequest itemPurchaseInfo){
 
         int itemPrice = itemService.findItemById(itemPurchaseInfo.getItemId()).getItemPrice();
 
@@ -39,8 +39,8 @@ public class ItemTransactionService {
 
         userInventoryService.addUserInventory(
                 new UserItemAddServiceDTO(
-                        itemPurchaseInfo.getItemId(),
                         itemPurchaseInfo.getUserNo(),
+                        itemPurchaseInfo.getItemId(),
                         itemPurchaseInfo.getCreatedAt()
                 )
         );
@@ -48,13 +48,13 @@ public class ItemTransactionService {
         ItemTransaction purchaseTransaction = itemTransactionMapper.toPurchaseTransaction(
                 itemPurchaseInfo
         );
-        itemTransactionRepository.save(purchaseTransaction);
+        return itemTransactionRepository.save(purchaseTransaction).getItemTransactionId();
     }
 
     @Transactional
     public void refundItem(ItemRefundServiceRequest itemRefundInfo) {
 
-        userInventoryService.findByItemId(itemRefundInfo.getItemId());
+        userInventoryService.findByItemIdAndUserNo(itemRefundInfo.getItemId(), itemRefundInfo.getUserNo());
         int itemPrice = itemService.findItemById(itemRefundInfo.getItemId()).getItemPrice();
         userService.addMoney(itemRefundInfo.getUserNo(), itemPrice);
         userInventoryService.deleteByItemId(itemRefundInfo.getItemId());
