@@ -19,7 +19,7 @@ public class UserInventoryController {
         this.userInventoryService = userInventoryService;
     }
 
-    @PostMapping("user/{userNo}/equip")
+    @PutMapping("user/{userNo}/equip")
     public void setEquipItems(@PathVariable long userNo, @RequestBody UserEquipItemDTO userEquipItemIfo){
         log.debug("to equip user:{}, to equip item:{}", userNo, userEquipItemIfo);
 

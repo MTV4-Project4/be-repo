@@ -2,7 +2,7 @@ package com.walkers.sportslight.userMotionChallenge.command.domain.infrastructur
 
 import com.walkers.sportslight.httpConnection.AiHttpClient;
 import com.walkers.sportslight.motionChallenge.command.application.service.MotionChallengeService;
-import com.walkers.sportslight.openfeign.ImageDataRequestDTO;
+import com.walkers.sportslight.userMotionChallenge.command.application.dto.MotionImageDataRequestDTO;
 import com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO.SimilarityResult;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.SimilarityCheckService;
 import lombok.extern.slf4j.Slf4j;
@@ -26,9 +26,10 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
         String baseMotionUrl = motionChallengeService.getMotionImageUrl(motionChallengeId);
 
         try {
+            log.info("ai server send try, baseUrl:{}, urerMotionFileUrl:{}", baseMotionUrl, userMotionFileUrl);
             SimilarityResult similarityResult =
                     aiHttpClient.sendSimilarityImage(
-                            new ImageDataRequestDTO(
+                            new MotionImageDataRequestDTO(
                                     baseMotionUrl, userMotionFileUrl
                             )
                     );
@@ -36,9 +37,9 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
             return similarityResult;
 
         } catch (Exception e) {
-            log.warn("failed to calculate similarity. baseImageUrl:{}, userMotionFileUrl:{}",
-                    baseMotionUrl, userMotionFileUrl);
-            throw new RuntimeException("유사도 측정 중 오류가 발생했습니다.");
+            log.warn("failed to calculate similarity. baseImageUrl:{}, userMotionFileUrl:{}, exception:{}",
+                    baseMotionUrl, userMotionFileUrl, e.getMessage());
+            throw new RuntimeException("유사도 측정 중 오류가 발생했습니다. 오류 내용 : ", e);
         }
         //return 0;
     }

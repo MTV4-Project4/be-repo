@@ -18,7 +18,7 @@ public class ItemImageServiceImpl implements ItemImageService {
 
     @Override
     public String uploadImage(MultipartFile file) throws IOException {
-        return fileUploadService.fileUpload(file);
+        return fileUploadService.fileUpload("rewardImage/", file);
     }
 
     @Override

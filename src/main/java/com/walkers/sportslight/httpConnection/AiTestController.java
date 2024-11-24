@@ -1,11 +1,9 @@
 package com.walkers.sportslight.httpConnection;
 
-import com.walkers.sportslight.openfeign.ImageDataRequestDTO;
+import com.walkers.sportslight.userMotionChallenge.command.application.dto.MotionImageDataRequestDTO;
 import com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO.SimilarityResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Map;
 
 @RestController
 public class AiTestController {
@@ -20,7 +18,7 @@ public class AiTestController {
     public SimilarityResult Test(){
 
         SimilarityResult map = aiHttpClient.sendSimilarityImage(
-                new ImageDataRequestDTO(
+                new MotionImageDataRequestDTO(
                         "http://125.132.216.190:12642/api/files/269f8736-cf26-4026-89e7-0058a14f60b2_유사도_예시_4.png",
 //                        "http://125.132.216.190:12642/api/files/7fb517fb-6e20-41ac-840f-d83d7b0b2df1_유사도_예시_3.png",
                         "http://125.132.216.190:12642/api/files/20292332-9af2-414b-a7df-3ed2197e6a19_유사도_예시_3.png"
