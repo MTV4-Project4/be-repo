@@ -29,7 +29,6 @@ public class ItemTransaction {
         this.itemId = itemId;
         this.userNo = userNo;
         this.itemTransactionType = itemTransactionType;
-        //this.amount = amount;
         this.createdAt = createdAt;
     }
 }

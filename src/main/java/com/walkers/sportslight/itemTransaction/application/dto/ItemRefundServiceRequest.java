@@ -12,5 +12,5 @@ public class ItemRefundServiceRequest {
     private final long userNo;
     private final long itemId;
     private final LocalDateTime createdAt;
-    private final TransactionType transactionType=TransactionType.REFUND;
+    private final TransactionType itemTransactionType =TransactionType.REFUND;
 }
