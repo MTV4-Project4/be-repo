@@ -25,7 +25,7 @@ public class TestController {
 
     @GetMapping("some")
     public SomeDataResponseDTO someData(){
-        log.info("someDate함수 요청옴");
+        log.info("someData 함수 get 요청옴");
         return new SomeDataResponseDTO(
                 42, 33.3, "예시 응답", LocalDateTime.now()
         );
@@ -43,7 +43,7 @@ public class TestController {
     @PostMapping("some")
     public SomePostResponseData dataResponse(SomeRequestData someRequestData){
 
-        log.info("{}", someRequestData);
+        log.info("pose 요청 옴, 내용 : {}", someRequestData);
 
         return new SomePostResponseData(
                 someRequestData.getSomeType(),
