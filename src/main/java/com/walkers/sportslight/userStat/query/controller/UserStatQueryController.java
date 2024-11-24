@@ -28,7 +28,7 @@ public class UserStatQueryController {
     @Operation(summary = "유저 스탯 조회", description = "지정한 유저의 스탯 정보를 조회합니다.")
     @GetMapping("user/{userNo}/stats")
     public ResponseEntity<UserStatsResponse> getUserStat(@PathVariable long userNo){
-        log.debug("조회할 유저 번호 : {}", userNo);
+        log.info("조회할 유저 번호 : {}", userNo);
         UserStatsResponse response = userStatQueryService.getUserStats(userNo);
         return ResponseEntity.ok(response);
     }

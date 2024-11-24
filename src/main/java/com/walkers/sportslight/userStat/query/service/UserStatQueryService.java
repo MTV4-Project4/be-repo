@@ -4,6 +4,7 @@ import com.walkers.sportslight.userStat.command.domain.aggregate.StatType;
 import com.walkers.sportslight.userStat.query.dto.*;
 import com.walkers.sportslight.userStat.query.repository.UserStatQueryRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -12,6 +13,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class UserStatQueryService {
 
     private final UserStatQueryRepository userStatQueryRepository;
@@ -19,6 +21,8 @@ public class UserStatQueryService {
     public UserStatsResponse getUserStats(long userNo) {
         List<UserStatDTO> statsData = userStatQueryRepository.getUserStats(userNo);
         UserStatsResponse response = new UserStatsResponse();
+
+        log.info("test in stat query service");
 
         Map<String, UserStatsResponse.StatDetail> stats = new HashMap<>();
         int userExperience = 0;
