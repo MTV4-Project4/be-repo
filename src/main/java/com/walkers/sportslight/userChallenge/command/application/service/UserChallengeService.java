@@ -43,15 +43,24 @@ public class UserChallengeService {
                 userChallengeInfo.getUserNo(), userChallengeInfo.getChallengeId()
         );
 
+        UserChallenge newUserChallenge=null;
+
         if(userChallenge.isPresent()){
 
             userChallenge.get().update(userChallengeInfo.getRecord(), userChallengeInfo.getParticipateTime());
-            return userChallenge.get().getUserChallengeId();
+            newUserChallenge = userChallenge.get();
         } else{
-            UserChallenge newUserChallenge = userChallengeMapper.toUserChallenge(userChallengeInfo);
+            newUserChallenge = userChallengeMapper.toUserChallenge(userChallengeInfo);
             log.info("새로 추가된 서비스 정보:{}", newUserChallenge);
-            return userChallengeRepository.save(newUserChallenge).getUserChallengeId();
+            newUserChallenge = userChallengeRepository.save(newUserChallenge);
         }
+
+        int currentRecordRank = userChallengeRepository.countByChallengeIdAndRecordGreaterThanEqual(
+                userChallengeInfo.getChallengeId(),
+                userChallengeInfo.getRecord()
+        );
+
+        return newUserChallenge.getUserChallengeId();
 
     }
 
