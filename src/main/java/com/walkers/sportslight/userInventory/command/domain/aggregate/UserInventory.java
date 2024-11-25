@@ -26,7 +26,7 @@ public class UserInventory {
     private InventoryItemType itemType;
     private LocalDateTime acquireAt;
 
-    @ColumnDefault("Y")
+    @ColumnDefault("'Y'")
     private String isEquipped;
 
     @Builder
