@@ -5,7 +5,6 @@ import com.walkers.sportslight.motionChallenge.command.application.dto.MotionCha
 import com.walkers.sportslight.motionChallenge.command.domain.aggregate.MotionChallenge;
 import com.walkers.sportslight.motionChallenge.command.domain.repository.MotionChallengeRepository;
 import com.walkers.sportslight.motionChallenge.command.domain.service.MotionFileUploadService;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -61,11 +60,11 @@ public class MotionChallengeService {
     public long addMotionChallenge(MotionChallengeAddRequest addRequest) {
         String fileUploadUrl=null;
 
-        if (addRequest.getMotionFile()==null){
+        if (addRequest.getFile()==null){
             log.info("got only challenge content");
         } else{
             try{
-                fileUploadUrl = motionFileUploadService.uploadFile(addRequest.getMotionFile());
+                fileUploadUrl = motionFileUploadService.uploadFile(addRequest.getFile());
             } catch (IOException e) {
                 throw new RuntimeException("파일 업로드에 실패했습니다");
             }

@@ -9,7 +9,7 @@ import org.springframework.web.service.annotation.PostExchange;
 
 import java.util.Map;
 
-@HttpExchange("http://metaai3.iptime.org:7900/")
+@HttpExchange("http://metaai3.iptime.org:7901/")
 public interface AiHttpClient {
 
     @GetExchange("test")
