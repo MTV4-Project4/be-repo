@@ -80,6 +80,15 @@ jobs:
         sed -i "s|\${S3_BUCKET_ACCESS_KEY}|${{ secrets.S3_BUCKET_ACCESS_KEY }}|g" deploy/docker-compose.yml
         sed -i "s|\${S3_BUCKET_SECRET_KEY}|${{ secrets.S3_BUCKET_SECRET_KEY }}|g" deploy/docker-compose.yml
 
+    - name: Copy Prometheus Config
+      run: |
+        cp prometheus.yml deploy/
+
+    - name: Verify Deployment Package
+      run: |
+        cd deploy
+        ls -l
+        zipinfo deploy.zip || echo "No zip created yet."
 
     - name: Generate deployment package
       run: |
