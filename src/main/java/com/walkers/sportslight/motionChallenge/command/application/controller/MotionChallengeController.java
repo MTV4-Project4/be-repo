@@ -46,22 +46,19 @@ public class MotionChallengeController {
     }
 
 
+    @Operation(summary = "모션 챌린지 생성")
+    @PostMapping("motion-challenge")
+    public MotionChallengeAddResponseDTO addMotionChallenge(@ModelAttribute @Valid MotionChallengeAddRequest addRequest) {
 
-    //누가 보류한대서 주석해둠
-//    @Operation(summary = "모션 챌린지 생성")
-//    @PostMapping("challenge/motion")
-//    public MotionChallengeAddResponseDTO motionChallengeAdd(@ModelAttribute @Valid MotionChallengeAddRequest addRequest) {
-//        log.info("try to make motion challenge, challengeInfo:{}", addRequest);
-//
-//        long addId = motionChallengeService.addMotionChallenge(addRequest);
-//        log.info("make motion challenge success, motionChallengeId:{}", addId);
-//        return new MotionChallengeAddResponseDTO(addId);
-//        //return motionChallengeService.addMotionChallenge();
-//    }
+        long addId = motionChallengeService.addMotionChallenge(addRequest);
+        log.info("make motion challenge success, motionChallengeId:{}", addId);
+        return new MotionChallengeAddResponseDTO(addId);
+        //return motionChallengeService.addMotionChallenge();
+    }
 
 
     @Operation(summary = "모션 챌린지 삭제")
-    @DeleteMapping("challenge/motion/{motionChallengeId}")
+    @DeleteMapping("motion-challenge/{motionChallengeId}")
     public void deleteMotionChallenge(@PathVariable long motionChallengeId){
 
         motionChallengeService.deleteMotionChallenge(motionChallengeId);
