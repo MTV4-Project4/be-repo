@@ -76,17 +76,16 @@ jobs:
 
     - name: Prepare Docker Compose file
       run: |
+        mkdir -p deploy
         cp docker-compose.yml deploy/
         sed -i "s|\${ECR_REGISTRY}|${{ steps.login-ecr.outputs.registry }}|g" deploy/docker-compose.yml
         sed -i "s|\${ECR_REPOSITORY}|sportslight|g" deploy/docker-compose.yml
         sed -i "s|\${IMAGE_TAG}|latest|g" deploy/docker-compose.yml
 
-
     - name: Generate deployment package
       run: |
-        mkdir -p deploy
-        cp -r docker-compose.yml deploy/docker-compose.yml
-        cd deploy && zip -r deploy.zip .
+        cd deploy
+        zip -r deploy.zip .
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
