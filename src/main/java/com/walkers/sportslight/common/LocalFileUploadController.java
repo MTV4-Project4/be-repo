@@ -14,11 +14,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-@RestController
-@RequestMapping("api/files")
+
+//@RestController
+//@RequestMapping("api/files")
 public class LocalFileUploadController {
-    @Value("${UPLOAD_DIR}")
-    private String uploadDir;
+    //@Value("${UPLOAD_DIR}")
+    private String uploadDir="/";
 
     private FileUploadService fileStorageService;
 

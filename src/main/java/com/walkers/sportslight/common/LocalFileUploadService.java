@@ -12,8 +12,8 @@ import java.util.UUID;
 
 public class LocalFileUploadService implements FileUploadService{
 
-    @Value("${UPLOAD_DIR}")
-    private String uploadDir;
+    //@Value("${UPLOAD_DIR}")
+    private String uploadDir="/";
 
     public String originalFileName(MultipartFile file){
         return
