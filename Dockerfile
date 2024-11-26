@@ -22,11 +22,4 @@ ENV S3_BUCKET_SECRET_KEY=${S3_BUCKET_SECRET_KEY}
 COPY ${JAR_FILE} app.jar
 
 # Run the application
-ENTRYPOINT ["java", \
-    "-Dspring.datasource.url=${DATABASE_URL}", \
-    "-Dspring.datasource.username=${DATABASE_USER}", \
-    "-Dspring.datasource.password=${DATABASE_PASSWORD}", \
-    "-Dcloud.aws.s3.bucket=${S3_BUCKET_NAME}", \
-    "-Dcloud.aws.credentials.accessKey=${S3_BUCKET_ACCESS_KEY}", \
-    "-Dcloud.aws.credentials.secretKey=${S3_BUCKET_SECRET_KEY}", \
-    "-jar", "/app.jar"]
+ENTRYPOINT ["java", "-jar", "/app.jar"]
