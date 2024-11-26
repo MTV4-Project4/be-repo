@@ -55,7 +55,15 @@ jobs:
         ECR_REPOSITORY: sportslight
         IMAGE_TAG: latest
       run: |
-        docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker buildx build --platform=linux/amd64 \
+          --build-arg JAR_FILE=build/libs/*.jar \
+          --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
+          --build-arg DATABASE_USER=${{ secrets.DATABASE_USER }} \
+          --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
+          --build-arg S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
+          --build-arg S3_BUCKET_ACCESS_KEY=${{ secrets.S3_BUCKET_ACCESS_KEY }} \
+          --build-arg S3_BUCKET_SECRET_KEY=${{ secrets.S3_BUCKET_SECRET_KEY }} \
+          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
@@ -82,4 +90,4 @@ jobs:
         version_label: earth-docker-${{steps.current-time.outputs.formattedTime}}
         region: ${{ secrets.AWS_REGION }}
         deployment_package: deploy/deploy.zip
-        wait_for_environment_recovery: 200
+        wait_for_environment_recovery: 150
