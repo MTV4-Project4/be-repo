@@ -14,12 +14,8 @@ services:
       - JAVA_APP_URL=http://java-app:12642/actuator/prometheus
 
   java-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
     image: 221082200491.dkr.ecr.ap-northeast-2.amazonaws.com/sportslight:latest
     container_name: java-app
-
     environment:
       - DATABASE_URL=${DATABASE_URL}          # EB 환경 속성에서 주입
       - DATABASE_USER=${DATABASE_USER}
