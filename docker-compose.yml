@@ -1,6 +1,23 @@
 version: '3.8'
 
 services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090" # Prometheus 외부 접근
+    networks:
+      - app-network
+    environment:
+      - JAVA_APP_URL=http://java-app:12642/actuator/prometheus
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
 
   java-app:
     image: 221082200491.dkr.ecr.ap-northeast-2.amazonaws.com/sportslight:latest
@@ -13,24 +30,9 @@ services:
       - S3_BUCKET_ACCESS_KEY=${S3_BUCKET_ACCESS_KEY}
       - S3_BUCKET_SECRET_KEY=${S3_BUCKET_SECRET_KEY}
     ports:
-      - "12642:12642"
+      - "80:12642"
     networks:
       - app-network
-
-
-  prometheus:
-    image: prom/prometheus:latest
-    container_name: prometheus
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-    ports:
-      - "9090:9090" # Prometheus 외부 접근
-    networks:
-      - app-network
-    environment:
-      - JAVA_APP_URL=http://java-app:12642/actuator/prometheus
-
-
 
   grafana:
     image: grafana/grafana:latest
@@ -41,6 +43,12 @@ services:
       - app-network
     environment:
       - PROMETHEUS_URL=http://prometheus:9090 # Prometheus와 통신 설정
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
 
 networks:
   app-network:
