@@ -23,7 +23,6 @@ jobs:
       run: |
         mkdir -p src/main/resources
         echo "${{ secrets.APPLICATION_DEV_YML }}" | base64 --decode > src/main/resources/application-dev.yml
-        find src
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -42,12 +41,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Debugging Environment Variables
-      run: |
-        echo "ECR_REGISTRY=$ECR_REGISTRY"
-        echo "ECR_REPOSITORY=sportslight"
-        echo "IMAGE_TAG=latest"
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -57,7 +50,6 @@ jobs:
       run: |
         docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
     - name: Get current time
       uses: 1466587594/get-current-time@v2
@@ -83,6 +75,11 @@ jobs:
     - name: Copy Prometheus Config
       run: |
         cp prometheus.yml deploy/
+
+    - name: Copy .platform Directory
+      run: |
+        mkdir -p deploy/.platform/nginx/conf.d/
+        cp -r .platform/nginx/conf.d/ deploy/.platform/nginx/conf.d/
 
     - name: Verify Deployment Package
       run: |
