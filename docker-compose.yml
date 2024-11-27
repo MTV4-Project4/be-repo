@@ -12,6 +12,12 @@ services:
       - app-network
     environment:
       - JAVA_APP_URL=http://java-app:12642/actuator/prometheus
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
 
   java-app:
     image: 221082200491.dkr.ecr.ap-northeast-2.amazonaws.com/sportslight:latest
@@ -37,6 +43,12 @@ services:
       - app-network
     environment:
       - PROMETHEUS_URL=http://prometheus:9090 # Prometheus와 통신 설정
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+        reservations:
+          memory: 128M
 
 networks:
   app-network:
