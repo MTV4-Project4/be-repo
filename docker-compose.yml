@@ -30,7 +30,7 @@ services:
       - S3_BUCKET_ACCESS_KEY=${S3_BUCKET_ACCESS_KEY}
       - S3_BUCKET_SECRET_KEY=${S3_BUCKET_SECRET_KEY}
     ports:
-      - "12642:12642"
+      - "80:12642"
     networks:
       - app-network
 

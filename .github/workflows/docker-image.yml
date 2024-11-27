@@ -76,11 +76,6 @@ jobs:
       run: |
         cp prometheus.yml deploy/
 
-    - name: Copy .platform Directory
-      run: |
-        mkdir -p deploy/.platform/nginx/conf.d/
-        cp -r .platform/nginx/conf.d/ deploy/.platform/nginx/conf.d/
-
     - name: Verify Deployment Package
       run: |
         cd deploy
