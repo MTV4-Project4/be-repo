@@ -63,6 +63,13 @@ dependencies {
     //security
     implementation 'org.springframework.security:spring-security-core:6.3.3'
 
+    //image modify
+    implementation 'net.coobird:thumbnailator:0.4.14'
+
+    // logstash
+    implementation 'net.logstash.logback:logstash-logback-encoder:7.2'
+
+
 
 
 }

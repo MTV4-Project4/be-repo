@@ -23,7 +23,6 @@ jobs:
       run: |
         mkdir -p src/main/resources
         echo "${{ secrets.APPLICATION_DEV_YML }}" | base64 --decode > src/main/resources/application-dev.yml
-        find src
 
     - name: Grant execute permission for gradlew
       run: chmod +x gradlew
@@ -42,12 +41,6 @@ jobs:
       id: login-ecr
       uses: aws-actions/amazon-ecr-login@v1
 
-    - name: Debugging Environment Variables
-      run: |
-        echo "ECR_REGISTRY=$ECR_REGISTRY"
-        echo "ECR_REPOSITORY=sportslight"
-        echo "IMAGE_TAG=latest"
-
     - name: Build, tag, and push image to Amazon ECR
       id: build-image
       env:
@@ -55,17 +48,8 @@ jobs:
         ECR_REPOSITORY: sportslight
         IMAGE_TAG: latest
       run: |
-        docker buildx build --platform=linux/amd64 \
-          --build-arg JAR_FILE=build/libs/*.jar \
-          --build-arg DATABASE_URL=${{ secrets.DATABASE_URL }} \
-          --build-arg DATABASE_USER=${{ secrets.DATABASE_USER }} \
-          --build-arg DATABASE_PASSWORD=${{ secrets.DATABASE_PASSWORD }} \
-          --build-arg S3_BUCKET_NAME=${{ secrets.S3_BUCKET_NAME }} \
-          --build-arg S3_BUCKET_ACCESS_KEY=${{ secrets.S3_BUCKET_ACCESS_KEY }} \
-          --build-arg S3_BUCKET_SECRET_KEY=${{ secrets.S3_BUCKET_SECRET_KEY }} \
-          -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker buildx build --platform=linux/amd64 -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
     - name: Get current time
       uses: 1466587594/get-current-time@v2
@@ -74,11 +58,34 @@ jobs:
         format: YYYYMMDD_HH-mm-ss
         utcOffset: "+09:00"
 
-    - name: Generate deployment package
+    - name: Prepare Docker Compose file
       run: |
         mkdir -p deploy
-        cp Dockerrun.aws.json deploy/Dockerrun.aws.json
-        cd deploy && zip -r deploy.zip .
+        cp docker-compose.yml deploy/
+        sed -i "s|\${ECR_REGISTRY}|${{ steps.login-ecr.outputs.registry }}|g" deploy/docker-compose.yml
+        sed -i "s|\${ECR_REPOSITORY}|sportslight|g" deploy/docker-compose.yml
+        sed -i "s|\${IMAGE_TAG}|latest|g" deploy/docker-compose.yml
+        sed -i "s|\${DATABASE_URL}|${{ secrets.DATABASE_URL }}|g" deploy/docker-compose.yml
+        sed -i "s|\${DATABASE_USER}|${{ secrets.DATABASE_USER }}|g" deploy/docker-compose.yml
+        sed -i "s|\${DATABASE_PASSWORD}|${{ secrets.DATABASE_PASSWORD }}|g" deploy/docker-compose.yml
+        sed -i "s|\${S3_BUCKET_NAME}|${{ secrets.S3_BUCKET_NAME }}|g" deploy/docker-compose.yml
+        sed -i "s|\${S3_BUCKET_ACCESS_KEY}|${{ secrets.S3_BUCKET_ACCESS_KEY }}|g" deploy/docker-compose.yml
+        sed -i "s|\${S3_BUCKET_SECRET_KEY}|${{ secrets.S3_BUCKET_SECRET_KEY }}|g" deploy/docker-compose.yml
+
+    - name: Copy Prometheus Config
+      run: |
+        cp prometheus.yml deploy/
+
+    - name: Verify Deployment Package
+      run: |
+        cd deploy
+        ls -l
+        zipinfo deploy.zip || echo "No zip created yet."
+
+    - name: Generate deployment package
+      run: |
+        cd deploy
+        zip -r deploy.zip .
 
     - name: Deploy to Elastic Beanstalk
       uses: einaregilsson/beanstalk-deploy@v14
