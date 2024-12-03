@@ -9,6 +9,7 @@ import com.walkers.sportslight.user.command.domain.model.UserStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class UserController {
 //    @PostMapping("login")
     @Operation(summary = "회원 가입", description = "회원 가입을 처리합니다.")
     @PostMapping("/signup")
-    public void signup(@RequestBody UserAuthRequestDTO.signUpDTO signInfo){
+    public void signup(@Valid @RequestBody UserAuthRequestDTO.signUpDTO signInfo){
 
         UserRegistServiceDTO userRegistInfo = new UserRegistServiceDTO(
                 signInfo, Authority.USER, UserStatus.ACTIVE,
@@ -47,7 +48,7 @@ public class UserController {
 
     @Operation(summary = "로그인", description = "로그인을 처리합니다.")
     @PostMapping("/login")
-    public long login(HttpServletRequest httpServletRequest,  @RequestBody UserAuthRequestDTO.loginDTO loginInfo){
+    public long login(HttpServletRequest httpServletRequest, @Valid @RequestBody UserAuthRequestDTO.loginDTO loginInfo){
 
         String ipAddress = httpServletRequest.getRemoteAddr();
 
