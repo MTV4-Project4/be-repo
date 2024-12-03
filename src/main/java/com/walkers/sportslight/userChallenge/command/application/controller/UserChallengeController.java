@@ -35,14 +35,6 @@ public class UserChallengeController {
 //         return "None";
 //    }
 
-
-//    @Operation(summary = "참가 정보 등록")
-//    @PostMapping("userChallenge/{id}")
-//    public ApiResponse<?> addUserChallenge(@PathVariable("id") long id, @RequestBody UserChallengeUpdateDTO updateInfo) {
-//
-//        return userChallengeService.registUserChallenge(updateInfo);
-//    }
-
     @Operation(summary = "참가 정보 등록")
     @PostMapping("user/{userNo}/challenge/{challengeId}")
     public UserChallengeAddResponseDTO addUserChallenge(@PathVariable long userNo, @PathVariable long challengeId
@@ -52,9 +44,8 @@ public class UserChallengeController {
                 new UserChallengeRegistServiceDTO(userNo,
                         challengeId, registerInfo.getRecord(),
                         LocalDateTime.now());
-        return new UserChallengeAddResponseDTO(
-                userChallengeService.registUserChallenge(userChallengeInfo)
-        );
+        return userChallengeService.registUserChallenge(userChallengeInfo);
+
     }
 
     @Operation(summary = "참가 정보 삭제")
