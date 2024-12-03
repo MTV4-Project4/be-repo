@@ -41,7 +41,7 @@
                     )
                     AS RANKING
                   FROM
-                    USER_CHALLENGE
+                    USER_BEST_RECORD
             )A
           JOIN
                 CHALLENGE B
@@ -53,6 +53,8 @@
 
     <select id="findUserChallengeRank" parameterType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeSearchDTO"
             resultType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeRecordDTO">
+
+
         SELECT
               USER_NO
             , CHALLENGE_ID
@@ -69,7 +71,7 @@
                 AS RANKING
               , RECORD
           FROM
-                USER_CHALLENGE
+                USER_BEST_RECORD
          WHERE
                 challenge_id=#{challengeId}) B
         WHERE USER_NO=#{userNo}

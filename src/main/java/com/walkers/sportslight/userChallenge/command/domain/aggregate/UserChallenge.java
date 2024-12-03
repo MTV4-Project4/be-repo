@@ -29,12 +29,4 @@ public class UserChallenge {
         this.participateTime = participateTime;
     }
 
-    public void update(int record, LocalDateTime participateTime){
-        if (record<=this.record){
-            return;
-        }
-
-        this.record = record;
-        this.participateTime = participateTime;
-    }
 }
