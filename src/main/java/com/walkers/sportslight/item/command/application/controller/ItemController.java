@@ -20,14 +20,14 @@ public class ItemController {
     }
 
 
-    @Operation(summary = "아이템 등록")
+    @Operation(summary = "아이템 등록", description = "아이템 이름, 설명, 타입, 이미지를 등록합니다.")
     @PostMapping("item")
     @ResponseStatus(HttpStatus.CREATED)
     private ItemAddResponseDTO addItem(@ModelAttribute ItemRequestDTO itemRequest) {
         return new ItemAddResponseDTO(itemService.addItem(itemRequest));
     }
 
-    @Operation(summary = "아이템 삭제")
+    @Operation(summary = "아이템 삭제", description = "지정한 아이템 정보를 삭제합니다.")
     @DeleteMapping("item/{itemId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     private void deleteItem(@PathVariable long itemId) {
