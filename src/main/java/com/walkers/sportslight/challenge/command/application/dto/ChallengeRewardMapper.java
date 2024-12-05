@@ -1,8 +1,7 @@
-package com.walkers.sportslight.challenge.application.dto;
+package com.walkers.sportslight.challenge.command.application.dto;
 
-import com.walkers.sportslight.challenge.domain.model.ChallengeReward;
+import com.walkers.sportslight.challenge.command.domain.model.ChallengeReward;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")

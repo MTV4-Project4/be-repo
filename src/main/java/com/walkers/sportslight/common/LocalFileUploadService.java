@@ -40,4 +40,10 @@ public class LocalFileUploadService implements FileUploadService{
             throw new IOException("파일 삭제에 실패했습니다.");
         }
     }
+
+    @Override
+    public String fileUpload(String filePath, byte[] fileBytes) throws IOException {
+        return "";
+    }
+
 }

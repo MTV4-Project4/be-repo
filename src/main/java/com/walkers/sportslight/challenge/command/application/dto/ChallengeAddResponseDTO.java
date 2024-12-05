@@ -1,4 +1,4 @@
-package com.walkers.sportslight.challenge.application.dto;
+package com.walkers.sportslight.challenge.command.application.dto;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

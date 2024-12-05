@@ -1,4 +1,4 @@
-package com.walkers.sportslight.challenge.domain.service;
+package com.walkers.sportslight.challenge.command.domain.service;
 
 import org.springframework.web.multipart.MultipartFile;
 

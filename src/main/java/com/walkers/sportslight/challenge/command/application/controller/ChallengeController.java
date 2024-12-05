@@ -1,11 +1,9 @@
-package com.walkers.sportslight.challenge.application.controller;
+package com.walkers.sportslight.challenge.command.application.controller;
 
-import com.walkers.sportslight.api.ApiResponse;
-import com.walkers.sportslight.challenge.application.dto.ChallengeAddRequest;
-import com.walkers.sportslight.challenge.application.service.ChallengeService;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeAddRequest;
+import com.walkers.sportslight.challenge.command.application.service.ChallengeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

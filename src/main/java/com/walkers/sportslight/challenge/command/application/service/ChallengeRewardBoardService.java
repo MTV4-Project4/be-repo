@@ -1,9 +1,9 @@
-package com.walkers.sportslight.challenge.application.service;
+package com.walkers.sportslight.challenge.command.application.service;
 
-import com.walkers.sportslight.challenge.application.dto.ChallengeRewardMapper;
-import com.walkers.sportslight.challenge.application.dto.RewardModifyServiceDTO;
-import com.walkers.sportslight.challenge.domain.model.ChallengeReward;
-import com.walkers.sportslight.challenge.domain.repository.ChallengeRewardRepository;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeRewardMapper;
+import com.walkers.sportslight.challenge.command.application.dto.RewardModifyServiceDTO;
+import com.walkers.sportslight.challenge.command.domain.model.ChallengeReward;
+import com.walkers.sportslight.challenge.command.domain.repository.ChallengeRewardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

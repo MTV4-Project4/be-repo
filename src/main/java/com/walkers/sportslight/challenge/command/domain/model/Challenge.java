@@ -1,4 +1,4 @@
-package com.walkers.sportslight.challenge.domain.model;
+package com.walkers.sportslight.challenge.command.domain.model;
 
 import com.walkers.sportslight.common.BaseTimeEntity;
 import jakarta.persistence.*;

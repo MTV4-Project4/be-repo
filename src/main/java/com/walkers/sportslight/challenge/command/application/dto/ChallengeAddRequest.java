@@ -1,4 +1,4 @@
-package com.walkers.sportslight.challenge.application.dto;
+package com.walkers.sportslight.challenge.command.application.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
