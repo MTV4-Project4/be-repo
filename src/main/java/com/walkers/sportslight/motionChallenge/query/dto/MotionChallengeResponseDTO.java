@@ -15,4 +15,5 @@ public class MotionChallengeResponseDTO {
     private long uploaderNo;
     private int participateCount;
     private String nickname;
+    private int likeCount;
 }
