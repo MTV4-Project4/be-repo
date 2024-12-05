@@ -31,6 +31,11 @@ public class UserService {
         return foundUser;
     }
 
+    public User findByUserId(String userId){
+        return userRepository.findByUserId(userId)
+                .orElseThrow(()-> new NoSuchElementException("해당 유저 이름을 찾을 수 없습니다."));
+    }
+
     public int getUserMoney(long userNo){
         return findByUserNo(userNo).getMoney();
     }

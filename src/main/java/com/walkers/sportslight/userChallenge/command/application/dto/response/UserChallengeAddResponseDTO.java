@@ -9,4 +9,7 @@ import lombok.*;
 @ToString
 public class UserChallengeAddResponseDTO {
     private long userChallengeId;
+    private int prevRecord;
+    private int currentRecord;
+    private int rank;
 }

@@ -5,6 +5,8 @@ import com.walkers.sportslight.challengeFavorites.query.dto.UserFavoriteResponse
 import com.walkers.sportslight.challengeFavorites.query.service.ChallengeFavoriteQueryService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +27,10 @@ public class ChallengeFavoriteQueryController {
 
 
     @Operation(summary = "유저 챌린지 즐겨찾기 조회")
+    @ApiResponses(value={
+            @ApiResponse(responseCode = "200", description = "즐겨찾기 조회 성공"),
+            @ApiResponse(responseCode = "404", description = "존재 하지 않는 유저")
+    })
     @GetMapping("user/{userNo}/challenge-favorite")
     public UserFavoriteResponseDTO findUserChallengeFavorite(@PathVariable long userNo){
 

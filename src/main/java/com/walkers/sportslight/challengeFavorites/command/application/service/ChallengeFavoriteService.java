@@ -1,12 +1,11 @@
 package com.walkers.sportslight.challengeFavorites.command.application.service;
 
-import com.walkers.sportslight.challenge.application.service.ChallengeService;
+import com.walkers.sportslight.challenge.command.application.service.ChallengeService;
 import com.walkers.sportslight.challengeFavorites.command.application.dto.request.ChallengeFavoriteAddServiceDTO;
 import com.walkers.sportslight.challengeFavorites.command.application.dto.request.ChallengeFavoriteMapper;
 import com.walkers.sportslight.challengeFavorites.command.application.dto.request.ChallengeFavoriteDeleteDTO;
 import com.walkers.sportslight.challengeFavorites.command.domain.aggregate.ChallengeFavorite;
 import com.walkers.sportslight.challengeFavorites.command.domain.repository.ChallengeFavoriteRepository;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,7 +18,6 @@ public class ChallengeFavoriteService {
     private ChallengeFavoriteMapper challengeFavoriteMapper;
     private ChallengeService challengeService;
 
-
     public ChallengeFavoriteService(ChallengeFavoriteRepository challengeFavoriteRepository, ChallengeFavoriteMapper challengeFavoriteMapper, ChallengeService challengeService) {
         this.challengeFavoriteRepository = challengeFavoriteRepository;
         this.challengeFavoriteMapper = challengeFavoriteMapper;
@@ -28,6 +26,15 @@ public class ChallengeFavoriteService {
 
     @Transactional
     public long addFavorite(ChallengeFavoriteAddServiceDTO challengeFavoriteInfo){
+
+        if (challengeFavoriteRepository.existsByUserNoAndChallengeId(
+                challengeFavoriteInfo.getUserNo(), challengeFavoriteInfo.getChallengeId()
+        )) {
+            return challengeFavoriteRepository.findChallengeFavoriteByUserNoAndChallengeId(
+                    challengeFavoriteInfo.getUserNo(), challengeFavoriteInfo.getChallengeId()
+            ).get().getChallengeId();
+        }
+
         ChallengeFavorite userFavorite = challengeFavoriteMapper.toFavorite(challengeFavoriteInfo);
         return challengeFavoriteRepository.save(userFavorite).getFavoriteId();
     }
