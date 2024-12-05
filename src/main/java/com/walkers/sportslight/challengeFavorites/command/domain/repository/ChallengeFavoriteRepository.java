@@ -9,4 +9,5 @@ public interface ChallengeFavoriteRepository extends JpaRepository<ChallengeFavo
     Optional<ChallengeFavorite> findChallengeFavoriteByUserNoAndChallengeId(long userNo, long challengeId);
     void deleteChallengeFavoriteByUserNoAndChallengeId(long userNo, long challengeId);
 
+    boolean existsByUserNoAndChallengeId(long userNo, long challengeId);
 }

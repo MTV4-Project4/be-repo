@@ -4,9 +4,7 @@ import com.walkers.sportslight.challengeFavorites.command.application.dto.reques
 import com.walkers.sportslight.challengeFavorites.command.application.dto.request.ChallengeFavoriteDeleteDTO;
 import com.walkers.sportslight.challengeFavorites.command.application.dto.request.ChallengeFavoriteRegistDTO;
 import com.walkers.sportslight.challengeFavorites.command.application.dto.response.ChallengeFavoriteAddResponseDTO;
-import com.walkers.sportslight.challengeFavorites.command.application.dto.response.MotionChallengeLikeResponseDTO;
 import com.walkers.sportslight.challengeFavorites.command.application.service.ChallengeFavoriteService;
-import com.walkers.sportslight.challengeFavorites.command.application.service.MotionChallengeLikeService;
 import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,11 +23,9 @@ import java.time.LocalDateTime;
 public class ChallengeFavoriteController {
 
     private ChallengeFavoriteService challengeFavoriteService;
-    private MotionChallengeLikeService motionChallengeLikeService;
 
-    public ChallengeFavoriteController(ChallengeFavoriteService challengeFavoriteService, MotionChallengeLikeService motionChallengeLikeService) {
+    public ChallengeFavoriteController(ChallengeFavoriteService challengeFavoriteService) {
         this.challengeFavoriteService = challengeFavoriteService;
-        this.motionChallengeLikeService = motionChallengeLikeService;
     }
 
     @Operation(summary = "챌린지 즐겨찾기 추가")
@@ -85,33 +81,6 @@ public class ChallengeFavoriteController {
         log.info("decoded challenge Name:{}", decodedChallengeName);
         challengeFavoriteService.deleteFavoriteByUserAndChallengeName(userNo, decodedChallengeName);
     }
-
-    @Operation(summary = "모션 챌린지 좋아요 추가")
-    @PostMapping("user/{userNo}/motion-challenge-like")
-    @ResponseStatus(HttpStatus.CREATED)
-    public MotionChallengeLikeResponseDTO addMotionLike(@PathVariable long userNo,
-                                                        @RequestBody ChallengeFavoriteRegistDTO challengeFavoriteRegist){
-
-        ChallengeFavoriteAddServiceDTO challengeFavoriteAddInfo =
-                new ChallengeFavoriteAddServiceDTO(
-                        userNo, challengeFavoriteRegist.getChallengeId(),
-                        LocalDateTime.now()
-                );
-
-        return new MotionChallengeLikeResponseDTO(
-                motionChallengeLikeService.addLike(challengeFavoriteAddInfo)
-        );
-    }
-
-    @Operation(summary = "모션 챌린지 좋아요 취소")
-    @DeleteMapping("motion-challenge-like/{favoriteId}")
-    public void cancelMotionLike(@PathVariable long favoriteId){
-        ChallengeFavoriteDeleteDTO deleteInfo =
-                new ChallengeFavoriteDeleteDTO(favoriteId);
-
-        challengeFavoriteService.deleteFavorite(deleteInfo);
-    }
-
 
 
 }

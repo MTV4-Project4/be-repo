@@ -56,12 +56,27 @@
               , A.PARTICIPATE_COUNT
               , A.MOTION_FILE_URL
               , B.NICKNAME
+              , IFNULL(C.CNT, 0) AS LIKE_COUNT
           FROM
                 MOTION_CHALLENGE A
-          JOIN
+        LEFT JOIN
                 USER B
              ON
                 A.UPLOADER_NO = B.USER_NO
+        LEFT JOIN
+                (
+                    SELECT
+                            MOTION_CHALLENGE_ID
+                          , COUNT(*) AS CNT
+                      FROM
+                            MOTION_CHALLENGE_LIKE
+                    GROUP BY
+                            MOTION_CHALLENGE_ID
+                ) C
+            ON
+                A.MOTION_CHALLENGE_ID = C.MOTION_CHALLENGE_ID
+          ORDER BY
+                A.MOTION_CHALLENGE_ID DESC
     </select>
 
     <select id="findMotionChallengeContent" resultMap="motionChallengeContentMap" parameterType="_long">
@@ -85,8 +100,6 @@
                 MOTION_CHALLENGE_ID=#{motionChallengeId}
     </select>
 
-
-
     <select id="findMotionChallengeById" resultMap="motionChallengeMap" parameterType="_long">
         SELECT
                 A.MOTION_CHALLENGE_ID
@@ -96,14 +109,24 @@
               , A.PARTICIPATE_COUNT
               , A.MOTION_FILE_URL
               , B.NICKNAME
+              , IFNULL(C.CNT, 0) AS LIKE_COUNT
           FROM
                 MOTION_CHALLENGE A
-          JOIN
+          LEFT JOIN
                 USER B
             ON
                 A.UPLOADER_NO = B.USER_NO
+          LEFT JOIN
+                ( SELECT MOTION_CHALLENGE_ID
+                        , COUNT(*) AS CNT
+                        FROM MOTION_CHALLENGE_LIKE
+                        GROUP BY
+                            MOTION_CHALLENGE_ID)
+                    C
+            ON
+                A.MOTION_CHALLENGE_ID = C.MOTION_CHALLENGE_ID
          WHERE
-                MOTION_CHALLENGE_ID=#{motionChallengeId}
+                A.MOTION_CHALLENGE_ID=#{motionChallengeId}
     </select>
 
 
