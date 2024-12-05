@@ -1,7 +1,7 @@
 package com.walkers.sportslight.userChallenge.command.application.service;
 
-import com.walkers.sportslight.challenge.domain.model.Challenge;
-import com.walkers.sportslight.challenge.domain.repository.ChallengeRepository;
+import com.walkers.sportslight.challenge.command.domain.model.Challenge;
+import com.walkers.sportslight.challenge.command.domain.repository.ChallengeRepository;
 import com.walkers.sportslight.userChallenge.command.application.dto.UserChallengeDeleteDTO;
 import com.walkers.sportslight.userChallenge.command.application.dto.UserChallengeMapper;
 import com.walkers.sportslight.userChallenge.command.application.dto.UserChallengeRegistServiceDTO;
@@ -17,7 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -63,13 +62,6 @@ public class UserChallengeService {
 
     }
 
-    @Transactional
-    public void updateUserChallenge(long userChallengeId, int record, LocalDateTime registrationDate) {
-        UserChallenge challenge = userChallengeRepository.findById(userChallengeId)
-                .orElseThrow(()->new NoSuchElementException("존재하지 않는 챌린지입니다."));
-
-        //challenge.update(record, registrationDate);
-    }
 
     @Transactional
     public void deleteUserChallenge(UserChallengeDeleteDTO userChallengeDeleteDTO) {
@@ -81,8 +73,6 @@ public class UserChallengeService {
         if (challenge.getUserNo()!=userChallengeDeleteDTO.getUserNo()){
             throw new SecurityException("접근이 불가능합니다.");
         }
-
-
 
         userChallengeRepository.deleteById(userChallengeDeleteDTO.getUserChallengeId());
     }
