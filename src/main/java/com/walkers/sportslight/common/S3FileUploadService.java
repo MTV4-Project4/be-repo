@@ -7,6 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -59,7 +60,6 @@ public class S3FileUploadService implements FileUploadService{
         metadata.setContentType(file.getContentType());
         filePath = addUUID(filePath);
 
-
         try{
             PutObjectRequest putObjectRequest = new PutObjectRequest(
                     bucket,
@@ -84,5 +84,33 @@ public class S3FileUploadService implements FileUploadService{
     @Override
     public void deleteFile(String fileName) throws IOException {
 
+    }
+
+    @Override
+    public String fileUpload(String filePath, byte[] fileBytes) throws IOException {
+        ObjectMetadata metadata = new ObjectMetadata();
+        metadata.setContentType("image/png");
+        metadata.setContentLength(fileBytes.length);
+        filePath = addUUID(filePath);
+
+
+        try{
+            PutObjectRequest putObjectRequest = new PutObjectRequest(
+                    bucket,
+                    filePath,
+                    new ByteArrayInputStream(fileBytes),
+                    metadata
+            );
+
+            amazonS3Client.putObject(putObjectRequest);
+
+            String uploadedUrl = amazonS3Client.getUrl(bucket, filePath).toString();
+            log.info("Successfully uploaded file {}, uploaded url:{}", filePath, uploadedUrl);
+            return uploadedUrl;
+
+        } catch (Exception e){
+            log.warn("failed to upload file " + filePath, e);
+            throw new IOException("파일 업로드에 실패했습니다.", e);
+        }
     }
 }

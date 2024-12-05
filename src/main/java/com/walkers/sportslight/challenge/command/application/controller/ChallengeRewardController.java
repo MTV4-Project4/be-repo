@@ -1,11 +1,9 @@
-package com.walkers.sportslight.challenge.application.controller;
+package com.walkers.sportslight.challenge.command.application.controller;
 
-import com.walkers.sportslight.challenge.application.dto.ChallengeAddRequest;
-import com.walkers.sportslight.challenge.application.dto.ChallengeRewardAddResponseDTO;
-import com.walkers.sportslight.challenge.application.dto.ChallengeRewardRequest;
-import com.walkers.sportslight.challenge.application.dto.RewardModifyServiceDTO;
-import com.walkers.sportslight.challenge.application.service.ChallengeRewardService;
-import com.walkers.sportslight.challenge.query.dto.ChallengeRewardResponseDTO;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeRewardAddResponseDTO;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeRewardRequest;
+import com.walkers.sportslight.challenge.command.application.dto.RewardModifyServiceDTO;
+import com.walkers.sportslight.challenge.command.application.service.ChallengeRewardService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,7 @@ public class ChallengeRewardController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("{challengeId}/reward")
     public ChallengeRewardAddResponseDTO addReward(@PathVariable long challengeId,
-                                                @ModelAttribute ChallengeRewardRequest challengeRewardRequest){
+                                                   @ModelAttribute ChallengeRewardRequest challengeRewardRequest){
         log.debug("to add challengeReward, challengeId:{}, rewardInfo:{}", challengeId, challengeRewardRequest);
         long rewardId = challengeRewardService.addReward(new RewardModifyServiceDTO(
                 challengeId,

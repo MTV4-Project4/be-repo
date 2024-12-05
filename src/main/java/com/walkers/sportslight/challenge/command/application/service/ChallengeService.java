@@ -1,9 +1,9 @@
-package com.walkers.sportslight.challenge.application.service;
+package com.walkers.sportslight.challenge.command.application.service;
 
-import com.walkers.sportslight.challenge.application.dto.ChallengeMapper;
-import com.walkers.sportslight.challenge.application.dto.ChallengeAddRequest;
-import com.walkers.sportslight.challenge.domain.model.Challenge;
-import com.walkers.sportslight.challenge.domain.repository.ChallengeRepository;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeMapper;
+import com.walkers.sportslight.challenge.command.application.dto.ChallengeAddRequest;
+import com.walkers.sportslight.challenge.command.domain.model.Challenge;
+import com.walkers.sportslight.challenge.command.domain.repository.ChallengeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;

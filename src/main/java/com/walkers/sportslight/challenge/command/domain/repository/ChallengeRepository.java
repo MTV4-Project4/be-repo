@@ -1,6 +1,6 @@
-package com.walkers.sportslight.challenge.domain.repository;
+package com.walkers.sportslight.challenge.command.domain.repository;
 
-import com.walkers.sportslight.challenge.domain.model.Challenge;
+import com.walkers.sportslight.challenge.command.domain.model.Challenge;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

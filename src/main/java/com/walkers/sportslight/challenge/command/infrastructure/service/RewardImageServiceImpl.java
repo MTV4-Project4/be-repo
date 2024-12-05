@@ -1,6 +1,6 @@
-package com.walkers.sportslight.challenge.domain.infrastructure;
+package com.walkers.sportslight.challenge.command.infrastructure.service;
 
-import com.walkers.sportslight.challenge.domain.service.RewardImageService;
+import com.walkers.sportslight.challenge.command.domain.service.RewardImageService;
 import com.walkers.sportslight.common.FileUploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

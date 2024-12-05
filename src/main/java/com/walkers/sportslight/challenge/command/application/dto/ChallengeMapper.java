@@ -1,9 +1,7 @@
-package com.walkers.sportslight.challenge.application.dto;
+package com.walkers.sportslight.challenge.command.application.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.walkers.sportslight.challenge.domain.model.Challenge;
+import com.walkers.sportslight.challenge.command.domain.model.Challenge;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper(componentModel = "spring")

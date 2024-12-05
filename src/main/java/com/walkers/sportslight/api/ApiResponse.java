@@ -26,6 +26,10 @@ public class ApiResponse<T> {
         return of(httpStatus, httpStatus.name(), data);
     }
 
+    public static <T> ApiResponse<T> error(HttpStatus httpStatus, String errorMessage) {
+        return new ApiResponse<>(httpStatus, errorMessage, null);
+    }
+
     public static <T> ApiResponse<T> ok(T data) {
         return of(HttpStatus.OK, data);
     }
