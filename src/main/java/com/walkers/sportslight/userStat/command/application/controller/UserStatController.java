@@ -36,7 +36,7 @@ public class UserStatController {
 //        return ResponseEntity.ok().build();
 //    }
 
-    @Operation(summary = "스탯 업데이트")
+    @Operation(summary = "스탯 업데이트", description = "유저 스탯을 업데이트 합니다.")
     @PutMapping("{userNo}/stats")
     public ResponseEntity<Void> updateMultipleStats(@PathVariable long userNo, @RequestBody UserStatUpdateDTO requests) {
         log.debug("req: {}", requests);
