@@ -53,8 +53,6 @@
 
     <select id="findUserChallengeRank" parameterType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeSearchDTO"
             resultType="com.walkers.sportslight.userChallenge.query.dto.UserChallengeRecordDTO">
-
-
         SELECT
               USER_NO
             , CHALLENGE_ID
@@ -63,7 +61,7 @@
 
         FROM
             (SELECT
-                USER_CHALLENGE_ID
+                BEST_RECORD_ID
               , USER_NO
               , CHALLENGE_ID
               , RANK() OVER
@@ -75,6 +73,36 @@
          WHERE
                 challenge_id=#{challengeId}) B
         WHERE USER_NO=#{userNo}
+    </select>
+
+    <select id="findUserPrevRecord" parameterType="_long"
+            resultType="_int">
+        SELECT
+                A.USER_NO
+              , A.CHALLENGE_ID
+              , IFNULL(B.RECORD, 0) AS PREV_RECORD
+              , A.RECORD AS CURRENT_RECORD
+                (
+                     SELECT
+                            COUNT(*)+1
+                       FROM
+                            B
+                      WHERE
+                            B.RECORD>=A.RECORD
+                        AND
+                            B.USER_NO!=A.USER_NO
+                        AND
+                            B.CHALLENGE_ID=A.CHALLENGE_ID
+                ) AS RANKING
+          FROM
+                USER_CHALLENGE A
+        LEFT JOIN
+                USER_BEST_RECORD B
+            ON
+                A.USER_NO=B.USER_NO and A.CHALLENGE_ID=B.CHALLENGE_ID
+         WHERE
+                A.USER_CHALLENGE_ID=#{userChallengeId}
+
     </select>
 
 </mapper>
