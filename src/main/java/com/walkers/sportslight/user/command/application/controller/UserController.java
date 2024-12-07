@@ -1,6 +1,7 @@
 package com.walkers.sportslight.user.command.application.controller;
 
 import com.walkers.sportslight.user.command.application.dto.UserAuthRequestDTO;
+import com.walkers.sportslight.user.command.application.dto.UserAuthResponseDTO;
 import com.walkers.sportslight.user.command.application.dto.UserRegistServiceDTO;
 import com.walkers.sportslight.user.command.application.service.UserService;
 import com.walkers.sportslight.user.command.domain.model.Birthday;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -36,13 +38,17 @@ public class UserController {
 //    @PostMapping("login")
     @Operation(summary = "회원 가입", description = "회원 가입을 처리합니다.")
     @PostMapping("/signup")
-    public void signup(@Valid @RequestBody UserAuthRequestDTO.signUpDTO signInfo){
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserAuthResponseDTO signup(@Valid @RequestBody UserAuthRequestDTO.signUpDTO signInfo){
 
         UserRegistServiceDTO userRegistInfo = new UserRegistServiceDTO(
                 signInfo, Authority.USER, UserStatus.ACTIVE,
-                new Birthday(signInfo.year(), signInfo.month(), signInfo.day()));
-        log.info("회원 가입 정보 : {}", userRegistInfo);
-        userService.registUser(userRegistInfo);
+                new Birthday(signInfo.birthday()));
+//                new Birthday(signInfo.year(), signInfo.month(), signInfo.day()));
+        return new UserAuthResponseDTO(
+                userService.registUser(userRegistInfo)
+        );
+
     }
 
 
@@ -58,6 +64,5 @@ public class UserController {
         log.info("유저 {} 로그인 성공, 아이디:{}, ip 주소:{}", userNo, loginInfo.userId(), ipAddress);
         return userNo;
     }
-
 
 }
