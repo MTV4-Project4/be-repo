@@ -2,6 +2,7 @@ package com.walkers.sportslight.userChallenge.query.service;
 
 import com.walkers.sportslight.userChallenge.query.dto.UserChallengeRecordDTO;
 import com.walkers.sportslight.userChallenge.query.dto.UserChallengeResponseDTO;
+import com.walkers.sportslight.userChallenge.query.dto.UserChallengeResultDTO;
 import com.walkers.sportslight.userChallenge.query.dto.UserChallengeSearchDTO;
 import com.walkers.sportslight.userChallenge.query.repository.UserChallengeQueryRepository;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,9 @@ public class UserChallengeQueryService {
                 userNo, challengeId
         );
         return userChallengeQueryRepository.findUserChallengeRank(userChallengeSearchInfo);
+    }
+
+    public UserChallengeResultDTO findUserChallengeResult(long userChallengeId) {
+        return userChallengeQueryRepository.findUserChallengeResult(userChallengeId);
     }
 }
