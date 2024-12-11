@@ -51,13 +51,19 @@ public class UserService {
     }
 
     @Transactional
-    public void registUser(UserRegistServiceDTO userRegistInfo) {
+    public long registUser(UserRegistServiceDTO userRegistInfo) {
         User user = userRegistMapper.toUser(userRegistInfo);
         user.setPassword(loginService.encodePassword(
                 user.getPassword()
         ));
+
+        if (userRepository.existsByUserId(userRegistInfo.getUserId())){
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
+
         User createdUser = userRepository.save(user);
         userStatService.initUserStat(createdUser.getUserNo());
+        return createdUser.getUserNo();
     }
 
     public long loginUser(String userId, String password) {
