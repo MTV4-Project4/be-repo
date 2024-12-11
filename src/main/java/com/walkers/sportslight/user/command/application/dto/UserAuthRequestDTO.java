@@ -18,43 +18,52 @@ public class UserAuthRequestDTO {
             @NotBlank(message = "아이디를 입력해 주세요.")
             String userId,
 
-            @Schema(description = "패스워드", defaultValue = "1234")
+            //@Schema(description = "패스워드", defaultValue = "1234")
+            @NotBlank(message = "비밀번호를 입력해 주세요.")
             String password,
 
-            @Positive(message = "올바른 연도를 입력")
-            int year,
-
-            @Positive(message = "올바른 월을 입력")
-            int month,
-
-            @Positive(message = "올바른 일을 입력")
-            int day,
+//            @Positive(message = "올바른 연도를 입력")
+//            int year,
+//
+//            @Positive(message = "올바른 월을 입력")
+//            int month,
+//
+//            @Positive(message = "올바른 일을 입력")
+//            int day,
+            @NotBlank(message = "생년월일을 입력해 주세요.")
+            String birthday,
 
             @NotBlank(message = "휴대폰 번호를 입력해 주세요.")
             String phoneNumber,
 
             @NotBlank(message = "주소를 입력해 주세요.")
-            String address,
+            String address//,
 
-            @Positive(message = "키는 양수로 입력해주세요")
-            double height,
-
-            @Positive(message = "몸무게는 양수로 입력해주세요")
-            double weight
+//            @Positive(message = "키는 양수로 입력해주세요")
+//            double height=170.0,
+//
+//            @Positive(message = "몸무게는 양수로 입력해주세요")
+//            double weight=70.0
     ) {
 
         @Override
         public String toString() {
-            return "signUpDTO{" +
+                        return "signUpDTO{" +
                     "nickname='" + nickname + '\'' +
                     ", userId='" + userId + '\'' +
-                    ", password='" + "[PROTECTED]" + '\'' +
-                    ", year=" + year +
-                    ", month=" + month +
-                    ", day=" + day +
-                    ", height=" + height +
-                    ", weight=" + weight +
+                    ", password='" + "[PROTECTED]" +'\'' +
+                    ", birthday=" + birthday +
                     '}';
+//            return "signUpDTO{" +
+//                    "nickname='" + nickname + '\'' +
+//                    ", userId='" + userId + '\'' +
+//                    ", password='" + "[PROTECTED]" + '\'' +
+//                    ", year=" + year +
+//                    ", month=" + month +
+//                    ", day=" + day +
+//                    ", height=" + height +
+//                    ", weight=" + weight +
+//                    '}';
         }
     }
 

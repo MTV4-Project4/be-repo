@@ -32,8 +32,10 @@ public class UserRegistServiceDTO {
         this.status = status;
         this.birthday = birthday;
         this.money=0;
-        this.height = userRegistRequestDTO.height();
-        this.weight = userRegistRequestDTO.weight();
+        this.height=170.0; //임시 값
+        this.weight=70.0;
+//        this.height = userRegistRequestDTO.height();
+//        this.weight = userRegistRequestDTO.weight();
     }
 
 

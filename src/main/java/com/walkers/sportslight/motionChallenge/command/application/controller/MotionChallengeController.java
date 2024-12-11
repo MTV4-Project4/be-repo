@@ -2,7 +2,6 @@ package com.walkers.sportslight.motionChallenge.command.application.controller;
 
 import com.walkers.sportslight.motionChallenge.command.application.dto.MotionChallengeAddRequest;
 import com.walkers.sportslight.motionChallenge.command.application.dto.MotionChallengeAddResponseDTO;
-import com.walkers.sportslight.motionChallenge.command.application.dto.MotionChallengeImageSetDTO;
 import com.walkers.sportslight.motionChallenge.command.application.service.MotionChallengeService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -14,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("api")
 @Slf4j
-@Tag(name = "모션 챌린지 관리 API", description = "모션 챌린지를 관리하는 API")
+@Tag(name = "모션 챌린지 관리 API", description = "유저 크리에이터 챌린지를 등록하거나, 삭제하는 기능을 제공하는 API")
 public class MotionChallengeController {
 
     private MotionChallengeService motionChallengeService;
@@ -24,7 +23,7 @@ public class MotionChallengeController {
     }
 
 
-    @Operation(summary = "모션 챌린지 내용 생성")
+    @Operation(summary = "모션 챌린지 내용 생성", description = "크리에이터 모션 챌린지의 텍스트 내용을 새로 생성합니다.")
     @PostMapping("motion-challenge/content")
     public MotionChallengeAddResponseDTO motionChallengeAdd(@RequestBody @Valid MotionChallengeAddRequest addRequest){
         log.info("try to make motion challenge content, challengeInfo:{}", addRequest);
@@ -33,7 +32,7 @@ public class MotionChallengeController {
         return new MotionChallengeAddResponseDTO(addId);
     }
 
-    @Operation(summary = "모션 챌린지 이미지 설정")
+    @Operation(summary = "모션 챌린지 이미지 설정", description = "지정한 모션 챌린지의 이미지를 설정합니다.")
     @PostMapping("motion-challenge/{motionChallengeId}/image")
     public void motionChallengeImageUpdate(@PathVariable long motionChallengeId,
                                            @RequestParam("file") MultipartFile file){
@@ -46,7 +45,7 @@ public class MotionChallengeController {
     }
 
 
-    @Operation(summary = "모션 챌린지 생성")
+    @Operation(summary = "모션 챌린지 신규 생성", description = "모션 챌린지를 내용과 이미지를 가지고 새로 생성합니다.")
     @PostMapping("motion-challenge")
     public MotionChallengeAddResponseDTO addMotionChallenge(@ModelAttribute @Valid MotionChallengeAddRequest addRequest) {
 
@@ -57,7 +56,7 @@ public class MotionChallengeController {
     }
 
 
-    @Operation(summary = "모션 챌린지 삭제")
+    @Operation(summary = "모션 챌린지 삭제", description = "지정한 모션 챌린지를 삭제합니다.")
     @DeleteMapping("motion-challenge/{motionChallengeId}")
     public void deleteMotionChallenge(@PathVariable long motionChallengeId){
 
