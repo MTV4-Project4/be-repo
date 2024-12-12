@@ -1,8 +1,7 @@
 package com.walkers.sportslight.config.fileStorage;
 
-import com.walkers.sportslight.common.FileUploadService;
-import com.walkers.sportslight.common.LocalFileUploadService;
-import org.springframework.context.annotation.Bean;
+import com.walkers.sportslight.common.FileStorage.FileUploadService;
+import com.walkers.sportslight.common.FileStorage.LocalFileUploadService;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
