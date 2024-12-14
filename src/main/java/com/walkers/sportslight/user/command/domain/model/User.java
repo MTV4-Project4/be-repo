@@ -17,6 +17,7 @@ public class User {
 
     @Column(unique = true)
     private String userId;
+
     private String password;
     private String nickname;
     private Birthday birthday;
@@ -30,11 +31,15 @@ public class User {
 
     private int money;
 
-    private double height;
-    private double weight;
+    private Double height;
+    private Double weight;
+
+    @Enumerated(EnumType.STRING)
+    private LoginType loginType;
 
     @Builder
-    public User(String userId, String password, String nickname, Birthday birthday, String phoneNumber, String address, Authority authority, UserStatus status, int money, double height, double weight) {
+    public User(String userId, String password, String nickname, Birthday birthday, String phoneNumber, String address,
+                Authority authority, UserStatus status, int money, Double height, Double weight, LoginType loginType) {
         this.userId = userId;
         this.password = password;
         this.nickname = nickname;
@@ -46,8 +51,8 @@ public class User {
         this.money = money;
         this.height = height;
         this.weight = weight;
+        this.loginType = loginType;
     }
-
 
     public void setMoney(int money) {
         this.money = money;
