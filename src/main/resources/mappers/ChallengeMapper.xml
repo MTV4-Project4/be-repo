@@ -97,7 +97,7 @@
                       , D.USER_NO
                       , D.NICKNAME
                    FROM
-                        USER_CHALLENGE C
+                        USER_BEST_RECORD C
                    JOIN
                         USER D
                      ON
@@ -180,7 +180,7 @@
                         AS RANKING
 
                   FROM
-                        USER_CHALLENGE
+                        USER_BEST_RECORD
                  WHERE
                         challenge_id=#{challengeId}
                 )
