@@ -52,7 +52,15 @@ public class MotionChallengeController {
         long addId = motionChallengeService.addMotionChallenge(addRequest);
         log.info("make motion challenge success, motionChallengeId:{}", addId);
         return new MotionChallengeAddResponseDTO(addId);
-        //return motionChallengeService.addMotionChallenge();
+    }
+
+    @Operation(summary = "모션 챌린지 변경", description = "지정한 모션 챌린지를 수정합니다.")
+    @PutMapping("motion-challenge/{motionChallengeId}")
+    public void updateMotionChallenge(@PathVariable long motionChallengeId,
+                                      @ModelAttribute @Valid MotionChallengeAddRequest addRequest){
+
+        motionChallengeService.updateMotionChallenge(motionChallengeId, addRequest) ;
+
     }
 
 

@@ -1,9 +1,9 @@
-package com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.service;
+package com.walkers.sportslight.userMotionChallenge.command.infrastructure.service;
 
 import com.walkers.sportslight.httpConnection.AiHttpClient;
 import com.walkers.sportslight.motionChallenge.command.application.service.MotionChallengeService;
 import com.walkers.sportslight.userMotionChallenge.command.application.dto.MotionImageDataRequestDTO;
-import com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO.SimilarityResult;
+import com.walkers.sportslight.userMotionChallenge.command.infrastructure.VO.SimilarityResult;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.SimilarityCheckService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
         String baseMotionUrl = motionChallengeService.getMotionImageUrl(motionChallengeId);
 
         try {
-            log.info("ai server send try, baseUrl:{}, urerMotionFileUrl:{}", baseMotionUrl, userMotionFileUrl);
+            log.info("ai server send try, baseUrl:{}, userMotionFileUrl:{}", baseMotionUrl, userMotionFileUrl);
             SimilarityResult similarityResult =
                     aiHttpClient.sendSimilarityImage(
                             new MotionImageDataRequestDTO(
@@ -46,7 +46,7 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
 
     @Override
     public String getResult(double similarity) {
-        return similarity>=80? "성공":"실패";
+        return similarity>=80? "Success":"Fail";
     }
 
 

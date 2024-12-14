@@ -1,4 +1,4 @@
-package com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.VO;
+package com.walkers.sportslight.userMotionChallenge.command.infrastructure.VO;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

@@ -36,4 +36,9 @@ public class MotionChallenge extends BaseTimeEntity {
     public void updateParticipateNumber(int participateNumber) {
         this.participateCount += participateNumber;
     }
+
+    public void updateChallengeText(String challengeName, String content){
+        this.challengeName = challengeName;
+        this.content = content;
+    }
 }

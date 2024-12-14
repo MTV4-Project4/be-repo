@@ -1,5 +1,7 @@
 package com.walkers.sportslight.common.FileStorage;
 
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -9,10 +11,11 @@ import java.nio.file.Paths;
 import java.text.Normalizer;
 import java.util.UUID;
 
+@Slf4j
 public class LocalFileUploadService implements FileUploadService{
 
-    //@Value("${UPLOAD_DIR}")
-    private String uploadDir="/";
+    @Value("${UPLOAD_DIR}")
+    private String uploadDir;
 
     public String originalFileName(MultipartFile file){
         return
@@ -42,7 +45,21 @@ public class LocalFileUploadService implements FileUploadService{
 
     @Override
     public String fileUpload(String filePath, byte[] fileBytes) throws IOException {
-        return "";
+
+
+        String fileName = (UUID.randomUUID().toString() + "_" + filePath.replaceAll(" ", "_"));
+        fileName = fileName.replaceAll("/", "_");
+        log.info("파일 업로드 시도중?");
+        Path uploadPath = Paths.get(uploadDir, fileName);
+
+
+        Files.createDirectories(uploadPath.getParent());
+
+        String imageUrl = "http://125.132.216.190:12642/api/files/" + fileName;
+
+        Files.write(uploadPath, fileBytes);
+        return imageUrl;
+        //return "";
     }
 
 }

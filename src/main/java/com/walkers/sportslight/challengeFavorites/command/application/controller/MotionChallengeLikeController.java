@@ -22,15 +22,15 @@ public class MotionChallengeLikeController {
         this.motionChallengeLikeService = motionChallengeLikeService;
     }
 
-    @Operation(summary = "모션 챌린지 좋아요 추가")
-    @PostMapping("user/{userNo}/motion-challenge-like")
+    @Operation(summary = "챌린지 피드 좋아요 추가")
+    @PostMapping("user/{userNo}/motion-challenge/{motionChallengeId}/like")
     @ResponseStatus(HttpStatus.CREATED)
     public MotionChallengeLikeResponseDTO addMotionLike(@PathVariable long userNo,
-                                                        @RequestBody ChallengeFavoriteRegistDTO challengeFavoriteRegist){
+                                                        @PathVariable long motionChallengeId){
 
         ChallengeFavoriteAddServiceDTO challengeFavoriteAddInfo =
                 new ChallengeFavoriteAddServiceDTO(
-                        userNo, challengeFavoriteRegist.getChallengeId(),
+                        userNo, motionChallengeId,
                         LocalDateTime.now()
                 );
 
@@ -39,7 +39,7 @@ public class MotionChallengeLikeController {
         );
     }
 
-    @Operation(summary = "모션 챌린지 좋아요 취소")
+    @Operation(summary = "챌린지 피드 좋아요 취소")
     @DeleteMapping("user/{userNo}/motion-challenge/{motionChallengeId}")
     public void cancelMotionLike(@PathVariable long userNo, @PathVariable long motionChallengeId){
         motionChallengeLikeService.deleteByUserNoAndChallengeId(userNo, motionChallengeId);

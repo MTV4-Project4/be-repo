@@ -83,4 +83,27 @@ public class MotionChallengeService {
         //motionFileUploadService.deleteFile();
         challengeBoardService.deleteMotionChallengeBoard(motionChallengeId);
     }
+
+    public void updateMotionChallenge(long motionChallengeId, MotionChallengeAddRequest addRequest) {
+        MotionChallenge motionChallenge = findById(motionChallengeId);
+        if(addRequest.getFile()!=null){
+            //이미지 업로드
+            String fileUploadUrl =null;
+            try{
+                fileUploadUrl = motionFileUploadService.uploadFile(addRequest.getFile());
+            } catch (IOException e) {
+                throw new RuntimeException("파일 업로드에 실패했습니다");
+            }
+            if(fileUploadUrl==null){
+                challengeBoardService.setImage(motionChallengeId, fileUploadUrl);
+            };
+        }
+
+        challengeBoardService.updateMotionChallengeText(
+                motionChallengeId,
+                addRequest.getChallengeName(),
+                addRequest.getContent()
+        );
+
+    }
 }

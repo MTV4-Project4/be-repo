@@ -1,7 +1,7 @@
 package com.walkers.sportslight.motionChallenge.command.domain.infrastructure;
 
-import com.walkers.sportslight.common.FileUploadService;
-import com.walkers.sportslight.common.FileUploadUtil;
+import com.walkers.sportslight.common.FileStorage.FileUploadService;
+import com.walkers.sportslight.common.FileStorage.FileUploadUtil;
 import com.walkers.sportslight.motionChallenge.command.domain.service.MotionFileUploadService;
 import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.stereotype.Service;
