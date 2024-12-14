@@ -1,6 +1,4 @@
-package com.walkers.sportslight.common;
-
-import java.util.UUID;
+package com.walkers.sportslight.common.FileStorage;
 
 public class FileUploadUtil {
 //

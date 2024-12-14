@@ -2,6 +2,7 @@ package com.walkers.sportslight.user.command.application.dto;
 
 import com.walkers.sportslight.user.command.domain.model.Birthday;
 import com.walkers.sportslight.user.command.domain.model.Authority;
+import com.walkers.sportslight.user.command.domain.model.LoginType;
 import com.walkers.sportslight.user.command.domain.model.UserStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +22,10 @@ public class UserRegistServiceDTO {
     private final int money;
     private final double height;
     private final double weight;
+    private final LoginType loginType;
 
-    public UserRegistServiceDTO(UserAuthRequestDTO.signUpDTO userRegistRequestDTO, Authority authority, UserStatus status, Birthday birthday) {
+    public UserRegistServiceDTO(UserAuthRequestDTO.signUpDTO userRegistRequestDTO,
+                                Authority authority, UserStatus status, Birthday birthday, LoginType loginType) {
         this.userId = userRegistRequestDTO.userId();
         this.password = userRegistRequestDTO.password();
         this.nickname = userRegistRequestDTO.nickname();
@@ -34,6 +37,7 @@ public class UserRegistServiceDTO {
         this.money=0;
         this.height=170.0; //임시 값
         this.weight=70.0;
+        this.loginType=loginType;
 //        this.height = userRegistRequestDTO.height();
 //        this.weight = userRegistRequestDTO.weight();
     }

@@ -41,6 +41,13 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         }
 
         if ( requestURI.equals("/api/login") || requestURI.startsWith("/login")) {
+            log.info("try to login, IP:{}", request.getRemoteAddr());
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        if(requestURI.startsWith("/api")) {
+//            log.info("넘어가지는지 테스트");
             filterChain.doFilter(request, response);
             return;
         }
@@ -56,11 +63,7 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
             }
         }
 
-        if(requestURI.startsWith("/api")) {
-//            log.info("넘어가지는지 테스트");
-            filterChain.doFilter(request, response);
-            return;
-        }
+
 
         throw new IllegalStateException("invalid access");
     }

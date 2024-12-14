@@ -1,10 +1,12 @@
 package com.walkers.sportslight.config.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.walkers.sportslight.config.jwt.JwtTokenProvider;
 import com.walkers.sportslight.config.jwt.TokenService;
 import com.walkers.sportslight.config.jwt.domain.RefreshToken;
 import com.walkers.sportslight.config.jwt.domain.RefreshTokenRepository;
 import com.walkers.sportslight.config.jwt.domain.RefreshTokenService;
+import com.walkers.sportslight.user.command.application.dto.UserAuthResponseDTO;
 import com.walkers.sportslight.user.command.application.service.UserService;
 import com.walkers.sportslight.user.command.domain.model.User;
 import com.walkers.sportslight.user.command.domain.repository.UserRepository;
@@ -19,6 +21,8 @@ import org.springframework.security.web.authentication.SimpleUrlAuthenticationSu
 
 import java.io.IOException;
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,9 +62,13 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
         saveRefreshToken(userId, refreshToken);
 
         // 임시로 body에 유저번호 반환
-        String responseBody = String.format(
-                "{\"userNo\": " +user.getUserNo() + "}"
-        );
+//        String responseBody = String.format(
+//                "{\"userNo\": " +user.getUserNo() + "}"
+//        );
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        UserAuthResponseDTO userAuthResponse = new UserAuthResponseDTO(user.getUserNo(), user.getNickname());
+        String responseBody = objectMapper.writeValueAsString(userAuthResponse);
 
         response.getWriter().write(responseBody);
         response.getWriter().flush();

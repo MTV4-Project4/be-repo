@@ -1,4 +1,4 @@
-package com.walkers.sportslight.common;
+package com.walkers.sportslight.common.FileStorage;
 
 import org.springframework.web.multipart.MultipartFile;
 
