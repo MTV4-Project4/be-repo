@@ -1,6 +1,6 @@
 package com.walkers.sportslight.item.command.infrastructure;
 
-import com.walkers.sportslight.common.FileUploadService;
+import com.walkers.sportslight.common.FileStorage.FileUploadService;
 import com.walkers.sportslight.item.command.domain.service.ItemImageService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

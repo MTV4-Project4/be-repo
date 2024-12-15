@@ -1,6 +1,6 @@
-package com.walkers.sportslight.userMotionChallenge.command.domain.infrastructure.service;
+package com.walkers.sportslight.userMotionChallenge.command.infrastructure.service;
 
-import com.walkers.sportslight.common.FileUploadService;
+import com.walkers.sportslight.common.FileStorage.FileUploadService;
 import com.walkers.sportslight.userMotionChallenge.command.domain.service.UserMotionFileUploadService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

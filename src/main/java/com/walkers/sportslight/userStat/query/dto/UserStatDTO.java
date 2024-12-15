@@ -4,10 +4,12 @@ import com.walkers.sportslight.userStat.command.domain.aggregate.StatType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class UserStatDTO {
     private StatType statType; // 스탯 유형 (Enum)
     private int statLevel;      // 스탯 레벨
