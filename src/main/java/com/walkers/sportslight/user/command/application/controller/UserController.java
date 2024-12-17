@@ -6,6 +6,7 @@ import com.walkers.sportslight.user.command.application.dto.UserRegistServiceDTO
 import com.walkers.sportslight.user.command.application.service.UserService;
 import com.walkers.sportslight.user.command.domain.model.Birthday;
 import com.walkers.sportslight.user.command.domain.model.Authority;
+import com.walkers.sportslight.user.command.domain.model.LoginType;
 import com.walkers.sportslight.user.command.domain.model.UserStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,15 +28,6 @@ public class UserController {
         this.userService = userService;
     }
 
-//    @PostMapping("user")
-//    public void registUser(@RequestBody UserRegistRequestDTO userInfo){
-//
-//        UserRegistServiceDTO userRegistInfo = new UserRegistServiceDTO(userInfo, Authority.USER, UserStatus.ACTIVE);
-//        userService.registUser(userRegistInfo);
-//    }
-
-//    @Operation(summary = "로그인", description = "회원 로그인을 처리하고 인증 토큰을 발급합니다.")
-//    @PostMapping("login")
     @Operation(summary = "회원 가입", description = "회원 가입을 처리합니다.")
     @PostMapping("/signup")
     @ResponseStatus(HttpStatus.CREATED)
@@ -43,11 +35,10 @@ public class UserController {
 
         UserRegistServiceDTO userRegistInfo = new UserRegistServiceDTO(
                 signInfo, Authority.USER, UserStatus.ACTIVE,
-                new Birthday(signInfo.birthday()));
+                new Birthday(signInfo.birthday()),
+                LoginType.EMAIL);
 //                new Birthday(signInfo.year(), signInfo.month(), signInfo.day()));
-        return new UserAuthResponseDTO(
-                userService.registUser(userRegistInfo)
-        );
+        return userService.registUser(userRegistInfo);
 
     }
 

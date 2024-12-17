@@ -1,5 +1,6 @@
 package com.walkers.sportslight.user.command.application.service;
 
+import com.walkers.sportslight.user.command.application.dto.UserAuthResponseDTO;
 import com.walkers.sportslight.user.command.application.dto.UserRegistMapper;
 import com.walkers.sportslight.user.command.application.dto.UserRegistServiceDTO;
 import com.walkers.sportslight.user.command.domain.model.User;
@@ -51,7 +52,7 @@ public class UserService {
     }
 
     @Transactional
-    public long registUser(UserRegistServiceDTO userRegistInfo) {
+    public UserAuthResponseDTO registUser(UserRegistServiceDTO userRegistInfo) {
         User user = userRegistMapper.toUser(userRegistInfo);
         user.setPassword(loginService.encodePassword(
                 user.getPassword()
@@ -63,7 +64,8 @@ public class UserService {
 
         User createdUser = userRepository.save(user);
         userStatService.initUserStat(createdUser.getUserNo());
-        return createdUser.getUserNo();
+
+        return new UserAuthResponseDTO(createdUser.getUserNo(), createdUser.getNickname());
     }
 
     public long loginUser(String userId, String password) {
@@ -71,6 +73,7 @@ public class UserService {
         try{
             return loginService.login(userId, password);
         } catch (RuntimeException e) {
+            log.warn("로그인 실패 userId:{}", userId);
             throw new IllegalArgumentException("아이디 또는 비밀번호를 확인하세요");
         }
 

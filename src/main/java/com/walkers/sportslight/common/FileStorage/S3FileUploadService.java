@@ -1,4 +1,4 @@
-package com.walkers.sportslight.common;
+package com.walkers.sportslight.common.FileStorage;
 
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.amazonaws.services.s3.model.ObjectMetadata;

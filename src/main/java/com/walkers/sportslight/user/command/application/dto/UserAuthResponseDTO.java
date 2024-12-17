@@ -9,4 +9,5 @@ import lombok.*;
 @NoArgsConstructor
 public class UserAuthResponseDTO {
     private long userNo;
+    private String nickname;
 }
