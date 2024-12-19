@@ -39,6 +39,15 @@ public class ChallengeBoardService {
 
     }
 
+    @Transactional
+    public void updateMotionChallengeText(long challengeId, String challengeName,
+                                             String content){
+        MotionChallenge motionChallenge =  motionChallengeRepository.findById(challengeId)
+                .orElseThrow(()-> new NoSuchElementException("해당하는 모션 챌린지가 존재하지 않습니다."));
+
+        motionChallenge.updateChallengeText(challengeName, content);
+
+    }
 
 
 }

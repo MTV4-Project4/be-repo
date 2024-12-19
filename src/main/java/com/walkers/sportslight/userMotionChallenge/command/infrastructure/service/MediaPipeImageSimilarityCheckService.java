@@ -46,7 +46,7 @@ public class MediaPipeImageSimilarityCheckService implements SimilarityCheckServ
 
     @Override
     public String getResult(double similarity) {
-        return similarity>=80? "Success":"Fail";
+        return similarity>=65? "Success":"Fail";
     }
 
 

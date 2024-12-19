@@ -4,10 +4,10 @@ import com.walkers.sportslight.userChallenge.command.domain.aggregate.UserBestRe
 import com.walkers.sportslight.userChallenge.command.repository.UserBestRecordRepository;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -23,14 +23,24 @@ public class BestRecordService {
             long userNo, long challengeId
     ){
         return userBestRecordRepository.findByUserNoAndChallengeId(userNo, challengeId)
-                .orElse(new UserBestRecord(userNo,challengeId, 0, LocalDateTime.now()));
+                .orElseGet(()-> new UserBestRecord(userNo,challengeId, 0, LocalDateTime.now()));
     }
 
     @Transactional
     public void updateBestRecord(Long userNo, Long challengeId, int record,
                                  LocalDateTime participateTime){
-        UserBestRecord bestRecord = userBestRecordRepository.findByUserNoAndChallengeId(userNo, challengeId)
-                .orElse(new UserBestRecord(userNo, challengeId, record, participateTime));
+        Optional<UserBestRecord> bestRecordOptional = userBestRecordRepository.findByUserNoAndChallengeId(userNo, challengeId);
+        UserBestRecord bestRecord;
+
+        if (bestRecordOptional.isPresent()) {
+            bestRecord = bestRecordOptional.get();
+            bestRecord.updateChallengeRecord(
+                    record, participateTime
+            );
+        } else{
+            bestRecord = new UserBestRecord(userNo, challengeId, record, LocalDateTime.now());
+        }
+
         userBestRecordRepository.save(bestRecord);
 
 

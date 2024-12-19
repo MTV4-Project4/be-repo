@@ -3,13 +3,11 @@ package com.walkers.sportslight.userChallenge.query.controller;
 import com.walkers.sportslight.api.ApiResponse;
 import com.walkers.sportslight.userChallenge.query.dto.*;
 import com.walkers.sportslight.userChallenge.query.service.UserChallengeQueryService;
-import io.swagger.v3.oas.annotations.Hidden;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -41,9 +39,7 @@ public class UserChallengeQueryController {
     @GetMapping("user/{userNo}/challenge/{challengeId}/rank")
     @ResponseStatus(HttpStatus.OK)
     public UserChallengeRecordDTO getUserChallengeRank(@PathVariable long userNo, @PathVariable long challengeId){
-
         return userChallengeQueryService.findUserChallengeRank(userNo, challengeId);
-
     }
 
     @Operation(summary = "플레이 결과 화면 조회", description = "챌린지 플레이 후 순위, 기록과 같은 결과를 조회")
@@ -53,16 +49,5 @@ public class UserChallengeQueryController {
         return userChallengeQueryService.findUserChallengeResult(userChallengeId);
     }
 
-    @Hidden
-    @GetMapping("/test")
-    public UserChallengeResponseArrayDTO testUserChallengeList() {
-        return new UserChallengeResponseArrayDTO(
-                List.of(
-                        new UserChallengeListDTO(1, 1, "제자리 뛰기 챌린지", 61, 2, LocalDateTime.of(2024, 11, 7, 13, 20))
-                        , new UserChallengeListDTO(2, 2, "스쿼트 챌린지", 23, 1, LocalDateTime.of(2024, 11, 6, 17, 0))
-                        , new UserChallengeListDTO(3, 1, "1분 축구공 리프팅 챌린지", 15, 4, LocalDateTime.of(2024, 11, 6, 17, 30))
-                )
-        );
-    }
 
 }

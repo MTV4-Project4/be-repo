@@ -9,7 +9,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
-public class UserChallengeAddResponseDTO {
+public class UserMotionChallengeAddResponseDTO {
     private long userMotionChallengeId;
     private double similarity;
     private String result;

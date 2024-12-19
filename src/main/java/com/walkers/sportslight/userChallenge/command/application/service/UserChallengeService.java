@@ -45,6 +45,12 @@ public class UserChallengeService {
         UserBestRecord prevBestRecord = bestRecordService.findBestRecordOrNullByUserNoAndChallengeId(
                 userChallengeInfo.getUserNo(), userChallengeInfo.getChallengeId());
 
+        if (prevBestRecord == null){
+            log.info("prev record is empty");
+        } else{
+            log.info("prev record:{}",prevBestRecord.getRecord());
+        }
+
         if(challengeRecordService.isNewRecord(
                 userChallenge.getUserNo(), userChallenge.getChallengeId(), userChallenge.getRecord())){
                 bestRecordService.updateBestRecord(userChallenge.getUserNo(), userChallenge.getChallengeId()
